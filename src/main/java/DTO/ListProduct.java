@@ -23,6 +23,15 @@ public class ListProduct {
     public ArrayList<ProductDTO> getList() {
         return list;
     }
+    
+    public boolean checkNameExist(String name){
+        for(ProductDTO pdDTO : list) {
+              if(pdDTO.getProductName().equals(name)){
+                return false;
+              }
+        }
+        return true;
+    }
 
     public ArrayList<ProductDTO> getListStillSell() {
         return ProductDAL.getAllProducts(false);

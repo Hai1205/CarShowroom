@@ -11,7 +11,8 @@ package GUI;
 public class Main {
 
     public static void main(String[] args) {
-         LoginGUI login = new LoginGUI();
-         login.setUsername("admin");
-         login.setPassword("admin");    }
+        LoginGUI login = new LoginGUI();
+        login.setUsername("admin");
+        login.setPassword("admin");
+    }
 }

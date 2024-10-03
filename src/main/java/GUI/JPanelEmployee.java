@@ -25,7 +25,7 @@ public class JPanelEmployee extends javax.swing.JPanel {
      */
     private EmployeeBUS epBUS;
     private int selectedRowIndex;
-    
+
     public JPanelEmployee() {
         initComponents();
         init();
@@ -33,7 +33,7 @@ public class JPanelEmployee extends javax.swing.JPanel {
         this.setSize(960, 700);
         this.setVisible(true);
     }
-    
+
     private void init() {
         ListEmployee listEp = new ListEmployee();
         epBUS = new EmployeeBUS(listEp, this);
@@ -41,77 +41,77 @@ public class JPanelEmployee extends javax.swing.JPanel {
         buttonFix.addActionListener(epBUS);
         buttonShowAll.addActionListener(epBUS);
         buttonSearchEmployee.addActionListener(epBUS);
-        
+
         jTableEmployee.getColumnModel().getColumn(2).setCellRenderer(new PasswordCellRenderer());
-        
+
         setEmployee();
         showList(listEp.getList());
     }
-    
+
     public javax.swing.JButton getButtonAdd() {
         return buttonAdd;
     }
-    
+
     public javax.swing.JButton getButtonFix() {
         return buttonFix;
     }
-    
+
     public javax.swing.JButton getButtonSearchEmployee() {
         return buttonSearchEmployee;
     }
-    
+
     public javax.swing.JButton getButtonShowAll() {
         return buttonShowAll;
     }
-    
+
     public javax.swing.JComboBox<String> getComboBoxEmployeeStatus() {
         return comboBoxEmployeeStatus;
     }
-    
+
     public javax.swing.JComboBox<String> getComboboxStatusSearch() {
         return comboboxStatusSearch;
     }
-    
+
     public javax.swing.JTable getJTableEmployee() {
         return jTableEmployee;
     }
-    
+
     public javax.swing.JCheckBox getShowPassword() {
         return showPassword;
     }
-    
+
     public javax.swing.JTextField getTextFieldEmployeeDOB() {
         return textFieldEmployeeDOB;
     }
-    
+
     public javax.swing.JTextField getTextFieldEmployeeFirstname() {
         return textFieldEmployeeFirstname;
     }
-    
+
     public javax.swing.JTextField getTextFieldEmployeeID() {
         return textFieldEmployeeID;
     }
-    
+
     public javax.swing.JTextField getTextFieldEmployeeLastname() {
         return textFieldEmployeeLastname;
     }
-    
+
     public javax.swing.JPasswordField getTextFieldEmployeePassword() {
         return textFieldEmployeePassword;
     }
-    
+
     public javax.swing.JTextField getTextFieldEmployeeSalary() {
         return textFieldEmployeeSalary;
     }
-    
+
     public javax.swing.JTextField getTextFieldEmployeeUsername() {
         return textFieldEmployeeUsername;
     }
-    
+
     public javax.swing.JTextField getTextFieldSearch() {
         return textFieldSearch;
     }
-    
+
     public final void editDisplay() {
         CreateImage cre = new CreateImage();
         cre.changeColorButton(buttonAdd);
@@ -123,9 +123,9 @@ public class JPanelEmployee extends javax.swing.JPanel {
         cre.setIconForButton(buttonSearchEmployee, "search.png");
         cre.setIconForButton(buttonShowAll, "refesh.png");
     }
-    
+
     static class PasswordCellRenderer extends DefaultTableCellRenderer {
-        
+
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             if (value != null) {
@@ -136,7 +136,7 @@ public class JPanelEmployee extends javax.swing.JPanel {
             return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         }
     }
-    
+
     private void setEmployee() {
         jTableEmployee.addMouseListener(new MouseAdapter() {
             @Override
@@ -154,7 +154,7 @@ public class JPanelEmployee extends javax.swing.JPanel {
             }
         });
     }
-    
+
     public void showList(ArrayList<EmployeeDTO> list) {
         DefaultTableModel employeeTable = (DefaultTableModel) jTableEmployee.getModel();
         employeeTable.setRowCount(0);
@@ -613,7 +613,11 @@ public class JPanelEmployee extends javax.swing.JPanel {
 
     private void textFieldEmployeeUsernameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldEmployeeUsernameKeyReleased
         String username = textFieldEmployeeUsername.getText().trim();
-        
+
+        if (username.isEmpty()) {
+            return;
+        }
+
         if (!Tool.checkUserName(username)) {
             JOptionPane.showMessageDialog(this, "Tên đăng nhập không hợp lệ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             textFieldEmployeeUsername.setText("");
@@ -625,16 +629,24 @@ public class JPanelEmployee extends javax.swing.JPanel {
 
     private void textFieldEmployeePasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldEmployeePasswordKeyReleased
         String password = textFieldEmployeePassword.getText().trim();
-        
+
+        if (password.isEmpty()) {
+            return;
+        }
+
         if (!Tool.checkPassword(password)) {
             JOptionPane.showMessageDialog(this, "Mật khẩu phải chứa ít nhất: \n6 ký tự.\n1 ký tự viết thường.\n1 ký tự viết hoa.\n1 chữ số.\n1 ký tự đặc biệt.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            
+
         }
     }//GEN-LAST:event_textFieldEmployeePasswordKeyReleased
 
     private void textFieldEmployeeFirstnameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldEmployeeFirstnameKeyReleased
         String firstname = textFieldEmployeeFirstname.getText().trim();
-        
+
+        if (firstname.isEmpty()) {
+            return;
+        }
+
         if (!Tool.isName(firstname)) {
             JOptionPane.showMessageDialog(this, "Họ của nhân viên không hợp lệ");
             textFieldEmployeeFirstname.setText("");
@@ -643,7 +655,11 @@ public class JPanelEmployee extends javax.swing.JPanel {
 
     private void textFieldEmployeeLastnameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldEmployeeLastnameKeyReleased
         String lastname = textFieldEmployeeLastname.getText().trim();
-        
+
+        if (lastname.isEmpty()) {
+            return;
+        }
+
         if (!Tool.isName(lastname)) {
             JOptionPane.showMessageDialog(this, "Tên của nhân viên không hợp lệ");
             textFieldEmployeeLastname.setText("");
@@ -653,16 +669,26 @@ public class JPanelEmployee extends javax.swing.JPanel {
     private void textFieldEmployeeDOBKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldEmployeeDOBKeyReleased
         // TODO add your handling code here:
         String DOB = textFieldEmployeeDOB.getText().trim();
-        
-        if (!Tool.isValidDateFormat(DOB)) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập đúng định dạng ngày sinh(dd/MM/yyyy)", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            textFieldEmployeeDOB.setText("");
+
+        if (DOB.isEmpty()) {
+            return;
+        }
+
+        if (DOB.length() >= 10) {
+            if (!Tool.isValidDate(DOB)) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập đúng định dạng ngày sinh(dd/MM/yyyy)", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                textFieldEmployeeDOB.setText("");
+            }
         }
     }//GEN-LAST:event_textFieldEmployeeDOBKeyReleased
 
     private void textFieldEmployeeSalaryKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldEmployeeSalaryKeyReleased
         String salary = textFieldEmployeeSalary.getText().trim();
-        
+
+        if (salary.isEmpty()) {
+            return;
+        }
+
         if (!Tool.isDouble(salary)) {
             JOptionPane.showMessageDialog(this, "Tiền lương phải là số dương.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             textFieldEmployeeSalary.setText("");

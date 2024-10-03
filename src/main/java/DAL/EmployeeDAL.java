@@ -26,9 +26,9 @@ public class EmployeeDAL {
             connection = Database.getConnection();
             String query;
             if (bool == true) {
-                query = "SELECT * FROM employee";
+                query = "SELECT * FROM employee WHERE status = '1'";
             } else {
-                query = "SELECT * FROM employee WHERE status = 'Còn làm việc'";
+                query = "SELECT * FROM employee";
             }
             pstmt = connection.prepareStatement(query);
             resultSet = pstmt.executeQuery();

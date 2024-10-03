@@ -25,7 +25,7 @@ public class JPanelDiscount extends javax.swing.JPanel {
     private ListDiscount listDc;
     private DiscountBUS dcBUS;
     private int selectedRowIndex;
-    
+
     public JPanelDiscount() {
         initComponents();
         init();
@@ -33,7 +33,7 @@ public class JPanelDiscount extends javax.swing.JPanel {
         this.setSize(960, 700);
         this.setVisible(true);
     }
-    
+
     private void init() {
         listDc = new ListDiscount();
         dcBUS = new DiscountBUS(listDc, this);
@@ -41,59 +41,59 @@ public class JPanelDiscount extends javax.swing.JPanel {
         buttonFix.addActionListener(dcBUS);
         buttonShowAll.addActionListener(dcBUS);
         buttonSearchDiscount.addActionListener(dcBUS);
-        
+
         setDiscount();
         showList(listDc.getList());
     }
-    
+
     public javax.swing.JButton getButtonAdd() {
         return buttonAdd;
     }
-    
+
     public javax.swing.JButton getButtonFix() {
         return buttonFix;
     }
-    
+
     public javax.swing.JButton getButtonSearchDiscount() {
         return buttonSearchDiscount;
     }
-    
+
     public javax.swing.JButton getButtonShowAll() {
         return buttonShowAll;
     }
-    
+
     public javax.swing.JTable getJTableDiscount() {
         return jTableDiscount;
     }
-    
+
     public javax.swing.JLabel getLabelPictureDiscount() {
         return labelPictureDiscount;
     }
-    
+
     public javax.swing.JTextField getTextFieldContent() {
         return textFieldContent;
     }
-    
+
     public javax.swing.JTextField getTextFieldDiscountEndDay() {
         return textFieldDiscountEndDay;
     }
-    
+
     public javax.swing.JTextField getTextFieldDiscountID() {
         return textFieldDiscountID;
     }
-    
+
     public javax.swing.JTextField getTextFieldDiscountName() {
         return textFieldDiscountName;
     }
-    
+
     public javax.swing.JTextField getTextFieldDiscountStartDay() {
         return textFieldDiscountStartDay;
     }
-    
+
     public javax.swing.JTextField getTextFieldSearch() {
         return textFieldSearch;
     }
-    
+
     public final void editDisplay() {
         CreateImage cre = new CreateImage();
         cre.changeColorButton(buttonAdd);
@@ -107,7 +107,7 @@ public class JPanelDiscount extends javax.swing.JPanel {
         labelPictureDiscount.setSize(350, 200);
         cre.setIconForLabel(labelPictureDiscount, "labelPictureDiscount.png");
     }
-    
+
     private void setDiscount() {
         jTableDiscount.addMouseListener(new MouseAdapter() {
             @Override
@@ -124,7 +124,7 @@ public class JPanelDiscount extends javax.swing.JPanel {
             }
         });
     }
-    
+
     public void showList(ArrayList<DiscountDTO> list) {
         DefaultTableModel discountTable = (DefaultTableModel) jTableDiscount.getModel();
         discountTable.setRowCount(0);
@@ -173,9 +173,9 @@ public class JPanelDiscount extends javax.swing.JPanel {
 
         jLabel3.setText("Tên chương trình");
 
-        jLabel4.setText("Ngày bắt đầu");
+        jLabel4.setText("Ngày bắt đầu(dd/MM/yyyy)");
 
-        jLabel5.setText("Ngày kết thúc");
+        jLabel5.setText("Ngày kết thúc(dd/MM/yyyy)");
 
         jLabel6.setText("Phần trăm giảm giá");
 
@@ -373,7 +373,7 @@ public class JPanelDiscount extends javax.swing.JPanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 960, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -384,7 +384,7 @@ public class JPanelDiscount extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(39, 39, 39)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(labelPictureDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -450,18 +450,30 @@ public class JPanelDiscount extends javax.swing.JPanel {
 
     private void textFieldDiscountNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldDiscountNameKeyReleased
         String discountName = textFieldDiscountName.getText().trim();
-        
-        if (!isName(discountName)) {
+
+        if (discountName.isEmpty()) {
+            return;
+        }
+
+        if (discountName.length() > 200) {
             JOptionPane.showMessageDialog(this, "Tên khuyến mãi không hợp lệ.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            textFieldDiscountName.setText("");
+        } else if (!listDc.checkNameExist(discountName)) {
+            JOptionPane.showMessageDialog(this, "Tên chương trình giảm giá này đã được sử dụng.", "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
             textFieldDiscountName.setText("");
         }
     }//GEN-LAST:event_textFieldDiscountNameKeyReleased
 
     private void textFieldDiscountStartDayKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldDiscountStartDayKeyReleased
         String begin = textFieldDiscountStartDay.getText().trim();
-        
-        if (!Tool.isValidDateFormat(begin)) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập đúng định dạng ngày bắt đầu(yyyy-MM-dd)", "Thông báo", JOptionPane.WARNING_MESSAGE);
+
+        if (begin.length() < 10) {
+            return;
+        }
+
+        if (!Tool.isValidDate(begin)) {
+            JOptionPane.showMessageDialog(this, "Ngày bắt đầu không hợp lệ", "Thông báo", JOptionPane.WARNING_MESSAGE);
             textFieldDiscountStartDay.setText("");
         }
     }//GEN-LAST:event_textFieldDiscountStartDayKeyReleased
@@ -469,9 +481,19 @@ public class JPanelDiscount extends javax.swing.JPanel {
     private void textFieldDiscountEndDayKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldDiscountEndDayKeyReleased
         String end = textFieldDiscountEndDay.getText().trim();
         String begin = textFieldDiscountStartDay.getText().trim();
-        
-        if (!Tool.isValidDateFormat(end)) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập đúng định dạng ngày kết thúc(yyyy-MM-dd)", "Thông báo", JOptionPane.WARNING_MESSAGE);
+
+        if (begin.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Phải nhập ngày bắt đầu trước", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            textFieldDiscountStartDay.requestFocus();
+            textFieldDiscountEndDay.setText("");
+        }
+
+        if (end.length() < 10) {
+            return;
+        }
+
+        if (!Tool.isValidDate(end)) {
+            JOptionPane.showMessageDialog(this, "ngày kết thúc không hơp lệ", "Thông báo", JOptionPane.WARNING_MESSAGE);
             textFieldDiscountEndDay.setText("");
         } else if (Tool.strToDate(begin).isAfter(Tool.strToDate(end))) {
             JOptionPane.showMessageDialog(this, "Ngày kết thúc phải sau ngày bắt đầu.", "Thông báo", JOptionPane.WARNING_MESSAGE);
@@ -481,9 +503,13 @@ public class JPanelDiscount extends javax.swing.JPanel {
 
     private void textFieldContentKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldContentKeyReleased
         String percentDiscount = textFieldContent.getText().trim();
-        
+
+        if (percentDiscount.isEmpty()) {
+            return;
+        }
+
         if (!Tool.isDiscount(percentDiscount)) {
-            JOptionPane.showMessageDialog(this, "Phần trăm giảm giá phải là một số thực(bé hơn 1 và lớn hơn 0)", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Phần trăm giảm giá phải là một số thực(bé hơn 1 và lớn hơn hoặc bằng 0)", "Thông báo", JOptionPane.WARNING_MESSAGE);
             textFieldContent.setText("");
         }
     }//GEN-LAST:event_textFieldContentKeyReleased

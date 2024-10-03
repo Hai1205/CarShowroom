@@ -447,6 +447,10 @@ public class JPanelCustomer extends javax.swing.JPanel {
     private void textFieldCustomerFirstnameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldCustomerFirstnameKeyReleased
         String firstname = textFieldCustomerFirstname.getText().trim();
 
+        if (firstname.isEmpty()) {
+            return;
+        }
+
         if (!Tool.isName(firstname)) {
             JOptionPane.showMessageDialog(this, "Họ của khách hàng không hợp lệ");
             textFieldCustomerFirstname.setText("");
@@ -455,6 +459,10 @@ public class JPanelCustomer extends javax.swing.JPanel {
 
     private void textFieldCustomerLastnameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldCustomerLastnameKeyReleased
         String lastname = textFieldCustomerLastname.getText().trim();
+
+        if (lastname.isEmpty()) {
+            return;
+        }
 
         if (!Tool.isName(lastname)) {
             JOptionPane.showMessageDialog(this, "Tên của khách hàng không hợp lệ");
@@ -465,6 +473,10 @@ public class JPanelCustomer extends javax.swing.JPanel {
     private void textFieldCustomerAddressKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldCustomerAddressKeyReleased
         String address = textFieldCustomerAddress.getText().trim();
 
+        if (address.isEmpty()) {
+            return;
+        }
+
         if (address.length() > 200) {
             JOptionPane.showMessageDialog(this, "Địa chỉ của khách hàng không hợp lệ");
             textFieldCustomerAddress.setText("");
@@ -473,6 +485,10 @@ public class JPanelCustomer extends javax.swing.JPanel {
 
     private void textFieldCustomerPhoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldCustomerPhoneKeyReleased
         String phone = textFieldCustomerPhone.getText().trim();
+
+        if (phone.length() < 10) {
+            return;
+        }
 
         if (!Tool.checkPhone(phone)) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đúng định dạng số điện thoại của khách hàng.", "Thông báo",

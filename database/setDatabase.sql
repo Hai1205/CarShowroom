@@ -16,15 +16,15 @@ DELETE FROM Import;
 -- DEMO INSERT
 INSERT INTO customer (customerID, firstname, lastname, address, phone) VALUES 
 ('CTM0000000001', 'Nguyen Hoang', 'Hai', 'Ha Noi', '0782748863'),
-('CTM0000000002', 'Bui Thi Khanh', 'Ha', 'Can Tho', '0123456789'),
-('CTM0000000003', 'Nguyen Van', 'Hieu', 'Ho Chi Minh', '0123459876'),
-('CTM0000000004', 'Nguyen Hoang Dan', 'Ngoc', 'Buon Ma Thuot', '0123321456'),
-('CTM0000000005', 'Truong Kim', 'Anh', 'Buon Ma Thuot', '0987789123'),
-('CTM0000000006', 'Mai Bao', 'Ngoc', 'Buon Ma Thuot', '0109903312'),
-('CTM0000000007', 'Nguyen Thi Thanh', 'Tuyen', 'Hau Giang', '0935690519'),
-('CTM0000000008', 'Nguyen Xuan', 'Thanh', 'Ha Noi', '0778387373'),
-('CTM0000000009', 'Bui Quang Minh', 'Hieu', 'Ho Chi Minh', '0782992123'),
-('CTM0000000010', 'Nguyen Khac', 'Nhu', 'Bac Lieu', '0135792468');
+('CTM0000000002', 'Bui Thi Khanh', 'Ha', 'Can Tho', '0912345678'),
+('CTM0000000003', 'Nguyen Van', 'Hieu', 'Ho Chi Minh', '0923456789'),
+('CTM0000000004', 'Nguyen Hoang Dan', 'Ngoc', 'Buon Ma Thuot', '0934567890'),
+('CTM0000000005', 'Truong Kim', 'Anh', 'Buon Ma Thuot', '0945678901'),
+('CTM0000000006', 'Mai Bao', 'Ngoc', 'Buon Ma Thuot', '0956789012'),
+('CTM0000000007', 'Nguyen Thi Thanh', 'Tuyen', 'Hau Giang', '0967890123'),
+('CTM0000000008', 'Nguyen Xuan', 'Thanh', 'Ha Noi', '0978901234'),
+('CTM0000000009', 'Bui Quang Minh', 'Hieu', 'Ho Chi Minh', '0989012345'),
+('CTM0000000010', 'Nguyen Khac', 'Nhu', 'Bac Lieu', '0990123456');
 
 INSERT INTO employee (employeeID, username, password, firstname, lastname, DOB, salary, status) VALUES 
 ('EP0000000000', 'admin', 'admin', 'Car', 'Showroom', '26/02/2020', 0, true),
@@ -41,19 +41,19 @@ INSERT INTO employee (employeeID, username, password, firstname, lastname, DOB, 
 
 INSERT INTO supplier (supplierID, supplierName, phone, address) VALUES 
 ('SP0000000001', 'Vinfast', '0987654321', 'Viet Nam'),
-('SP0000000002', 'Mercedes', '0049792468', 'Duc'),
-('SP0000000003', 'Toyota', '0081654335', 'Nhat Ban'),
-('SP0000000004', 'Honda', '0081654347', 'Nhat Ban'),
-('SP0000000005', 'Ford', '0017654386', 'Hoa Ky'),
-('SP0000000006', 'BMW', '0049654368', 'Duc'),
-('SP0000000007', 'Huyndai', '0082654392', 'Han Quoc'),
-('SP0000000008', 'KIA', '0082634518', 'Han Quoc'),
-('SP0000000009', 'Mazda', '0081654329', 'Nhat Ban'),
-('SP0000000010', 'Nissan', '0011628335', 'Nhat Ban'),
-('SP0000000011', 'Porsche', '0049654555', 'Duc'),
-('SP0000000012', 'Audi', '0049123987', 'Duc'),
-('SP0000000013', 'Tesla', '0011654335', 'Hoa Ky'),
-('SP0000000014', 'Jaguar Land Rover', '0044123989', 'Vuong Quoc Anh');
+('SP0000000002', 'Mercedes', '0149792468', 'Duc'),
+('SP0000000003', 'Toyota', '0281654335', 'Nhat Ban'),
+('SP0000000004', 'Honda', '0381654347', 'Nhat Ban'),
+('SP0000000005', 'Ford', '0417654386', 'Hoa Ky'),
+('SP0000000006', 'BMW', '0549654368', 'Duc'),
+('SP0000000007', 'Huyndai', '0682654392', 'Han Quoc'),
+('SP0000000008', 'KIA', '0782634518', 'Han Quoc'),
+('SP0000000009', 'Mazda', '0881654329', 'Nhat Ban'),
+('SP0000000010', 'Nissan', '0911628335', 'Nhat Ban'),
+('SP0000000011', 'Porsche', '0449654555', 'Duc'),
+('SP0000000012', 'Audi', '0649123987', 'Duc'),
+('SP0000000013', 'Tesla', '0111654335', 'Hoa Ky'),
+('SP0000000014', 'Jaguar Land Rover', '0944123989', 'Vuong Quoc Anh');
 
 INSERT INTO product (productID, supplierID, productName, supplierName, type, quantity, price, status) VALUES 
 ('PD0000000001', 'SP0000000001', 'VF8', 'Vinfast', 'ECar', 49, 28000*0.025, true),

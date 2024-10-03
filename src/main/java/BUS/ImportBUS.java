@@ -69,6 +69,8 @@ public class ImportBUS implements ActionListener {
             confirm();
         } else if (e.getSource() == jPanelImport.getButtonCancle()) {
             cancle();
+        } else if (e.getSource() == jPanelImport.getButtonDelete()) {
+            delete();
         } else {
             search();
         }
@@ -118,6 +120,27 @@ public class ImportBUS implements ActionListener {
         jPanelImport.getTextFieldTotalCost().setText(getTotalCost() + "");
     }
 
+    private void delete() {
+        if (importTempTable.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(jPanelImport, "Phiếu nhập hiện đang trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (selectedRowIndex == -1) {
+            JOptionPane.showMessageDialog(jPanelImport, "Xin hãy chọn đơn hàng cần xóa.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        int option = JOptionPane.showConfirmDialog(jPanelImport, "Bạn có chắc muốn xóa sản phẩm ra khỏi phiếu nhập không?",
+                "Cảnh báo", JOptionPane.YES_NO_OPTION);
+        if (option == JOptionPane.YES_OPTION) {
+
+            importTempTable.removeRow(selectedRowIndex);
+            jPanelImport.setTextFieldTotalCost("" + getTotalCost());
+            clearInfo();
+        }
+    }
+
     private void fix() {
         getInfo();
 
@@ -154,14 +177,15 @@ public class ImportBUS implements ActionListener {
     }
 
     private void confirm() {
+        int rowCount = importTempTable.getRowCount();
+        if (rowCount == 0) {
+            JOptionPane.showMessageDialog(jPanelImport, "Phiếu nhập hiện đang trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         int option = JOptionPane.showConfirmDialog(jPanelImport, "Bạn có chắc muốn xác nhận phiếu nhập không?", "Cảnh báo", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
             Double totalCost = getTotalCost();
-            int rowCount = importTempTable.getRowCount();
-            if (rowCount == 0) {
-                JOptionPane.showMessageDialog(jPanelImport, "Phiếu nhập hiện đang trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
 
             importID = listIp.createImportID();
             listIp.add(importID, date, totalCost);
@@ -195,6 +219,7 @@ public class ImportBUS implements ActionListener {
             JOptionPane.showMessageDialog(jPanelImport, "Phiếu nhập hiện đang trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
+
         int option = JOptionPane.showConfirmDialog(jPanelImport, "Bạn có chắc muốn hủy toàn bộ phiếu nhập không?", "Cảnh báo", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
             clearAll();

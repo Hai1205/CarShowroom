@@ -23,6 +23,15 @@ public class ListDiscount {
     public ArrayList<DiscountDTO> getList() {
         return list;
     }
+    
+    public boolean checkNameExist(String name){
+        for(DiscountDTO dcDTO : list) {
+              if(dcDTO.getDiscountName().equals(name)){
+                return false;
+              }
+        }
+        return true;
+    }
 
     public void add(String discountID, String discountName, double percentDiscount, String begin, String end) {
         list.add(0, new DiscountDTO(discountID, discountName, percentDiscount, begin, end));

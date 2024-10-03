@@ -789,28 +789,56 @@ public class JPanelOrder extends javax.swing.JPanel {
         // TODO add your handling code here:
     }// GEN-LAST:event_textFieldQuantityActionPerformed
 
-    private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonAddActionPerformed
+    private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {
         if (idProduct == null || idProduct.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Xin hãy chọn sản phẩm cần thêm.", "Thông báo",
                     JOptionPane.ERROR_MESSAGE);
             return;
-        } else if (quantityProduct == 0) {
-            JOptionPane.showMessageDialog(this, "Xin hãy nhập số lượng của sản phẩm cần sửa.", "Thông báo",
+        } else if (quantityProduct == 0 || textFieldQuantity.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Xin hãy nhập số lượng của sản phẩm cần thêm.", "Thông báo",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         DefaultTableModel invoiceTable = (DefaultTableModel) jTableOrder.getModel();
         int rowCount = invoiceTable.getRowCount();
+        boolean productExists = false;
 
         for (int i = 0; i < rowCount; i++) {
             if (invoiceTable.getValueAt(i, 0).equals(idProduct)) {
-                invoiceTable.removeRow(i);
+                productExists = true;
+                int baseQuantity = 0;
+
+                if (textFieldProductID.getText() != null && !"".equals(textFieldProductID.getText())) {
+                    ListProduct listPd = new ListProduct();
+                    ProductDTO pdDTO = listPd.searchProductByProductID(textFieldProductID.getText());
+                    baseQuantity = pdDTO.getQuantity();
+                }
+
+                int quantityInTable = (int) invoiceTable.getValueAt(i, 4);
+                int totalQuantity = quantityInTable + quantityProduct;
+
+                // Kiểm tra nếu số lượng vượt quá tồn kho
+                if (totalQuantity > baseQuantity) {
+                    JOptionPane.showMessageDialog(this,
+                            "Số lượng tồn kho của sản phẩm này hiện tại không đủ nên sẽ được đặt mặc định là số lượng tối đa",
+                            "Thông báo", JOptionPane.WARNING_MESSAGE);
+                    invoiceTable.setValueAt(baseQuantity, i, 4);
+                } else {
+                    invoiceTable.setValueAt(totalQuantity, i, 4);
+                }
+
+                double price = (double) invoiceTable.getValueAt(i, 5);
+                invoiceTable.setValueAt(price * totalQuantity, i, 6);
 
                 break;
             }
         }
-        SetValueTable();
+
+        // Nếu sản phẩm chưa tồn tại, thêm sản phẩm vào bảng
+        if (!productExists) {
+            SetValueTable();
+        }
 
         clear();
     }// GEN-LAST:event_buttonAddActionPerformed
@@ -872,24 +900,24 @@ public class JPanelOrder extends javax.swing.JPanel {
     }// GEN-LAST:event_buttonCancelMouseClicked
 
     private void buttonConfirmActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonConfirmActionPerformed
+        DefaultTableModel invoiceTable = (DefaultTableModel) jTableOrder.getModel();
+        int rowCount = invoiceTable.getRowCount();
+        if (rowCount == 0) {
+            JOptionPane.showMessageDialog(this, "Giỏ hàng hiện đang trống.", "Thông báo",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (customerID == null || customerID.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Mã khách hàng không được để trống.", "Thông báo",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         int option = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xác nhận đơn hàng không?", "Cảnh báo",
                 JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
             Double totalCost = getTotalCost();
             Double tempCost = getTempCost();
             Double reducedCost = tempCost - totalCost;
-
-            DefaultTableModel invoiceTable = (DefaultTableModel) jTableOrder.getModel();
-            int rowCount = invoiceTable.getRowCount();
-            if (rowCount == 0) {
-                JOptionPane.showMessageDialog(this, "Giỏ hàng hiện đang trống.", "Thông báo",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            } else if (customerID == null || customerID.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Mã khách hàng không được để trống.", "Thông báo",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }
 
             ListProduct listPd = new ListProduct();
             ArrayList<InvoiceDTO> invoices = listIv.getList();
@@ -959,6 +987,10 @@ public class JPanelOrder extends javax.swing.JPanel {
     private void textFieldQuantityKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_textFieldQuantityKeyReleased
         String quantityStr = textFieldQuantity.getText();
         try {
+            if (quantityStr.isEmpty()) {
+                return;
+            }
+
             int quantity = 0;
             if (textFieldProductID.getText() != null || !"".equals(textFieldProductID.getText())) {
                 ListProduct listPd = new ListProduct();
@@ -969,7 +1001,7 @@ public class JPanelOrder extends javax.swing.JPanel {
             int inputQuantity = Integer.parseInt(quantityStr);
             if (inputQuantity > quantity) {
                 JOptionPane.showMessageDialog(this,
-                        "Hiện tại không đủ số lượng nên sẽ được đặt mặc định là số lượng tối đa", "Thông báo",
+                        "Số lượng tồn kho của sản phẩm này hiện tại không đủ nên sẽ được đặt mặc định là số lượng tối đa", "Thông báo",
                         JOptionPane.WARNING_MESSAGE);
                 quantityProduct = quantity;
                 textFieldQuantity.setText(quantityProduct + "");
@@ -980,16 +1012,13 @@ public class JPanelOrder extends javax.swing.JPanel {
                 textFieldQuantity.setText(quantityProduct + "");
             }
 
-            if (inputQuantity < 0) {
+            if (inputQuantity <= 0) {
                 JOptionPane.showMessageDialog(this,
-                        "Số lượng mua phải là số nguyên dương nên sẽ đươc đặt mặc định là 1", "Thông báo",
+                        "Số lượng mua không hợp lệ nên sẽ đươc đặt mặc định là 1", "Thông báo",
                         JOptionPane.WARNING_MESSAGE);
-                quantityProduct = quantity;
-                textFieldQuantity.setText(quantityProduct + "");
-            } else {
                 quantityProduct = 1;
                 textFieldQuantity.setText(quantityProduct + "");
-            }
+            } 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Số lượng nhập vào không hợp lệ nên sẽ được đặt mặc định là 1",
                     "Thông báo", JOptionPane.WARNING_MESSAGE);
@@ -999,22 +1028,23 @@ public class JPanelOrder extends javax.swing.JPanel {
     }// GEN-LAST:event_textFieldQuantityKeyReleased
 
     private void buttonFixActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonFixActionPerformed
-        if (idProduct == null || idProduct.isEmpty()) {
+        int index = jTableOrder.getSelectedRow();
+        String quantityStr = textFieldQuantity.getText().trim();
+        if (index == -1) {
             JOptionPane.showMessageDialog(this, "Xin hãy chọn đơn hàng cần sửa.", "Thông báo",
                     JOptionPane.ERROR_MESSAGE);
             return;
-        } else if (quantityProduct == 0) {
+        } else if (quantityProduct == 0 || quantityStr.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Xin hãy nhập số lượng của sản phẩm cần sửa.", "Thông báo",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        int row = jTableOrder.getSelectedRow();
         DefaultTableModel invoiceTable = (DefaultTableModel) jTableOrder.getModel();
 
-        invoiceTable.setValueAt(quantityProduct, row, 4);
+        invoiceTable.setValueAt(quantityProduct, index, 4);
         double cost = quantityProduct * priceProduct;
-        invoiceTable.setValueAt(cost, row, 6);
+        invoiceTable.setValueAt(cost, index, 6);
 
         textFieldTempCost.setText(getTempCost() + "");
         textFieldTotalCost.setText(getTotalCost() + "");
@@ -1029,17 +1059,17 @@ public class JPanelOrder extends javax.swing.JPanel {
     private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonDeleteActionPerformed
         DefaultTableModel invoiceTable = (DefaultTableModel) jTableOrder.getModel();
         if (invoiceTable.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "Giỏ hàng hiện đang trống nên không thể thực hiện thao tác xóa.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Giỏ hàng hiện đang trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         int index = jTableOrder.getSelectedRow();
         if (index == -1) {
             JOptionPane.showMessageDialog(this, "Xin hãy chọn sản phẩm cần xóa.", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        int option = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa sản phẩm ra khỏi hóa đơn không không?",
+        int option = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa sản phẩm ra khỏi hóa đơn không?",
                 "Cảnh báo", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
 
@@ -1056,6 +1086,7 @@ public class JPanelOrder extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Giỏ hàng hiện đang trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
+
         int option = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn hủy toàn bộ đơn hàng không?", "Cảnh báo",
                 JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {

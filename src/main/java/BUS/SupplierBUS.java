@@ -58,9 +58,10 @@ public class SupplierBUS implements ActionListener {
         jPanelSupplier.getTextFieldSupplierAddress().setText("");
         jPanelSupplier.getTextFieldSupplierNumberPhone().setText("");
     }
-
+    
     public void setEnabled(boolean bool) {
         jPanelSupplier.getButtonAdd().setEnabled(bool);
+        jPanelSupplier.getTextFieldSupplierName().setEnabled(bool);
     }
 
     private void add() {

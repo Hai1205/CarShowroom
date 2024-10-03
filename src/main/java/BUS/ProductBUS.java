@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -102,6 +103,13 @@ public class ProductBUS implements ActionListener {
     }
 
     private void confirm() {
+        if (jPanelListProducts.idProduct == null) {
+            JOptionPane.showMessageDialog(jPanelListProducts,
+                    "Hãy chắc chắn bạn dã chọn sản phẩm trước khi xác nhận",
+                    "Thông báo", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         JPanelOrder order = new JPanelOrder(jPanelListProducts.customerID, this.employeeID, jPanelListProducts.idProduct, jPanelListProducts.orders);
         MainFrameGUI main = (MainFrameGUI) SwingUtilities.getWindowAncestor(jPanelListProducts);
         main.getjPanelMain().removeAll();
@@ -178,7 +186,7 @@ public class ProductBUS implements ActionListener {
         } else if (seat == null || seat.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelProduct, "Số chỗ ngồi không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
-        }  else if (series == null || series.isEmpty()) {
+        } else if (series == null || series.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelProduct, "Dòng xe không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         } else if (fuel == null || fuel.isEmpty()) {
@@ -289,7 +297,7 @@ public class ProductBUS implements ActionListener {
         } else if (seat == null || seat.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelProduct, "Số chỗ ngồi không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
-        }  else if (series == null || series.isEmpty()) {
+        } else if (series == null || series.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelProduct, "Dòng xe không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         } else if (fuel == null || fuel.isEmpty()) {

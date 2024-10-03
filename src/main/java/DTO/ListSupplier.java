@@ -23,6 +23,24 @@ public class ListSupplier {
     public ArrayList<SupplierDTO> getList() {
         return list;
     }
+    
+    public boolean checkNameExist(String name){
+        for(SupplierDTO spDTO : list) {
+              if(spDTO.getName().equals(name)){
+                return false;
+              }
+        }
+        return true;
+    }
+    
+    public boolean checkPhoneExist(String phone){
+        for(SupplierDTO spDTO : list) {
+              if(spDTO.getPhone().equals(phone)){
+                return false;
+              }
+        }
+        return true;
+    }
 
     public void add(String supplierID, String name, String address, String phone) {
         list.add(0, new SupplierDTO(supplierID, name, address, phone));

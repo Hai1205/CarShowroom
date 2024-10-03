@@ -720,15 +720,23 @@ public class JPanelProduct extends javax.swing.JPanel {
 
     private void textFiedProductNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFiedProductNameKeyReleased
         String productName = textFiedProductName.getText().trim();
-        
-        if (!Tool.isName(productName)) {
-            JOptionPane.showMessageDialog(this, "Tên xe không hợp lệ");
+
+        if (productName.length() > 200) {
+        JOptionPane.showMessageDialog(this, "Tên xe không hợp lệ");
+        textFiedProductName.setText("");
+        } else if (!listPd.checkNameExist(productName)) {
+            JOptionPane.showMessageDialog(this, "Tên nhà sản phẩm này đã được sử dụng.", "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
             textFiedProductName.setText("");
         }
     }//GEN-LAST:event_textFiedProductNameKeyReleased
 
     private void textFieldMFGKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldMFGKeyReleased
         String MFG = textFieldMFG.getText().trim();
+
+        if (MFG.length() < 4) {
+            return;
+        }
 
         if (!Tool.checkMFG(MFG)) {
             JOptionPane.showMessageDialog(this, "Năm sản xuất không hợp lệ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
@@ -739,15 +747,19 @@ public class JPanelProduct extends javax.swing.JPanel {
     private void textFieldSeatKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldSeatKeyReleased
         String seat = textFieldSeat.getText().trim();
 
+        if (seat.isEmpty()) {
+            return;
+        }
+
         if (!Tool.isInt(seat)) {
-            JOptionPane.showMessageDialog(this, "số chõ ngồi phải là số nguyên dương.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "số chõ ngồi không hơp lệ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             textFieldSeat.setText("");
         }
     }//GEN-LAST:event_textFieldSeatKeyReleased
 
     private void txtFieldSeriesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldSeriesKeyReleased
         String series = txtFieldSeries.getText().trim();
-        
+
         if (!Tool.isName(series)) {
             JOptionPane.showMessageDialog(this, "Dòng xe không hợp lệ");
             txtFieldSeries.setText("");
@@ -757,6 +769,11 @@ public class JPanelProduct extends javax.swing.JPanel {
     private void textFieldFuelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldFuelKeyReleased
         String fuel = textFieldFuel.getText().trim();
         String carType = (String) comboboxType.getSelectedItem();
+
+        if (fuel.isEmpty()) {
+            return;
+        }
+
         String textFuel;
         if (carType.equals("Car")) {
             textFuel = "Dung tích bình xăng";
@@ -765,8 +782,8 @@ public class JPanelProduct extends javax.swing.JPanel {
         }
 
         if (!Tool.isInt(fuel)) {
-            JOptionPane.showMessageDialog(this, textFuel + " phải là số nguyên dương.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            textFieldFuel.getText();
+            JOptionPane.showMessageDialog(this, textFuel + " không hợp lệ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            textFieldFuel.setText("");
         }
     }//GEN-LAST:event_textFieldFuelKeyReleased
 

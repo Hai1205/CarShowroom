@@ -4,7 +4,6 @@
  */
 package BUS;
 
-import static BUS.Tool.isName;
 import DAL.DiscountDAL;
 import DTO.*;
 import GUI.JPanelDiscount;
@@ -103,14 +102,11 @@ public class DiscountBUS implements ActionListener {
         } else if (begin == null || begin.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelDiscount, "Ngày bắt đầu không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
-        } else if (!Tool.isValidDateFormat(begin)) {
-            JOptionPane.showMessageDialog(jPanelDiscount, "Vui lòng nhập đúng định dạng ngày bắt đầu (yyyy-MM-dd)", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            return;
         } else if (end == null || end.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelDiscount, "Ngày kết thúc không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
-        } else if (!Tool.isValidDateFormat(end)) {
-            JOptionPane.showMessageDialog(jPanelDiscount, "Vui lòng nhập đúng định dạng ngày kết thúc (yyyy-MM-dd)", "Thông báo", JOptionPane.WARNING_MESSAGE);
+        } else if (percentDiscount == null || percentDiscount.isEmpty()) {
+            JOptionPane.showMessageDialog(jPanelDiscount, "Phần trăm giảm giá không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
 

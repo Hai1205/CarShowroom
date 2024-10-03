@@ -24,7 +24,7 @@ public class JPanelImport extends javax.swing.JPanel {
     private ListImport listIp;
     private ImportBUS ipBUS;
     private ListDetailImport listDip;
-    
+
     public JPanelImport() {
         initComponents();
         init();
@@ -32,7 +32,7 @@ public class JPanelImport extends javax.swing.JPanel {
         this.setSize(960, 700);
         this.setVisible(true);
     }
-    
+
     private void init() {
         listIp = new ListImport();
         listDip = new ListDetailImport();
@@ -44,77 +44,81 @@ public class JPanelImport extends javax.swing.JPanel {
         buttonFix.addActionListener(ipBUS);
         buttonConfirm.addActionListener(ipBUS);
         buttonCancle.addActionListener(ipBUS);
-        
+
         showListImport(listIp.getList());
         showListDetailImport(null);
         setImportID();
         setCombobox();
     }
-    
+
     public javax.swing.JButton getButtonAdd() {
         return buttonAdd;
     }
-    
+
     public javax.swing.JButton getButtonCancle() {
         return buttonCancle;
     }
-    
+
     public javax.swing.JButton getButtonConfirm() {
         return buttonConfirm;
     }
-    
+
     public javax.swing.JButton getButtonDelete() {
         return buttonDelete;
     }
-    
+
     public javax.swing.JButton getButtonFix() {
         return buttonFix;
     }
-    
+
     public javax.swing.JButton getButtonSearchImport() {
         return buttonSearchImport;
     }
-    
+
     public javax.swing.JComboBox<String> getComboBoxProductName() {
         return comboBoxProductName;
     }
-    
+
     public javax.swing.JComboBox<String> getComboBoxSupplierName() {
         return comboBoxSupplierName;
     }
-    
+
     public javax.swing.JTable getJTableImport() {
         return jTableImport;
     }
-    
+
     public javax.swing.JTable getJTableImportDetail() {
         return jTableImportDetail;
     }
-    
+
     public javax.swing.JTable getJTableTempImport() {
         return jTableTempImport;
     }
-    
+
     public javax.swing.JTextField getTextFieldImportPrice() {
         return textFieldImportPrice;
     }
-    
+
     public javax.swing.JTextField getTextFieldProductPrice() {
         return textFieldProductPrice;
     }
-    
+
     public javax.swing.JTextField getTextFieldQuantity() {
         return textFieldQuantity;
     }
-    
+
     public javax.swing.JTextField getTextFieldSearch() {
         return textFieldSearch;
     }
-    
+
     public javax.swing.JTextField getTextFieldTotalCost() {
         return textFieldTotalCost;
     }
     
+    public void setTextFieldTotalCost(String totalCost){
+        textFieldTotalCost.setText(totalCost);
+    }
+
     public final void editDisplay() {
         CreateImage cre = new CreateImage();
         cre.changeColorButton(buttonAdd);
@@ -123,7 +127,7 @@ public class JPanelImport extends javax.swing.JPanel {
         cre.changeColorButton(buttonFix);
         cre.changeColorButton(buttonConfirm);
         cre.changeColorButton(buttonCancle);
-        
+
         cre.setIconForButton(buttonAdd, "add.png");
         cre.setIconForButton(buttonSearchImport, "search.png");
         cre.setIconForButton(buttonDelete, "delete.png");
@@ -131,40 +135,34 @@ public class JPanelImport extends javax.swing.JPanel {
         cre.setIconForButton(buttonConfirm, "confirm.png");
         cre.setIconForButton(buttonCancle, "cancle.png");
     }
-    
+
     private void setCombobox() {
         ListSupplier listSp = new ListSupplier();
-        
+
         DefaultComboBoxModel<String> modelSupplier = new DefaultComboBoxModel<>();
         for (String item : listSp.getListSupplierName()) {
             modelSupplier.addElement(item);
         }
-        
+
         comboBoxSupplierName.setModel(modelSupplier);
         updateComboBoxProduct(null);
-        
-        comboBoxSupplierName.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                textFieldImportPrice.setText("");
-                textFieldQuantity.setText("");
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    String supplierName = (String) comboBoxSupplierName.getSelectedItem();
-                    updateComboBoxProduct(supplierName);
-                }
+
+        comboBoxSupplierName.addItemListener((ItemEvent e) -> {
+            textFieldImportPrice.setText("");
+            textFieldQuantity.setText("");
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                String supplierName = (String) comboBoxSupplierName.getSelectedItem();
+                updateComboBoxProduct(supplierName);
             }
         });
-        comboBoxProductName.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    String productName = (String) comboBoxProductName.getSelectedItem();
-                    setPrice(productName);
-                }
+        comboBoxProductName.addItemListener((ItemEvent e) -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                String productName = (String) comboBoxProductName.getSelectedItem();
+                setPrice(productName);
             }
         });
     }
-    
+
     private void setPrice(String productName) {
         switch (productName) {
             case "Nhấp để chọn" ->
@@ -179,7 +177,7 @@ public class JPanelImport extends javax.swing.JPanel {
             }
         }
     }
-    
+
     public void updateComboBoxProduct(String supplierName) {
         ListProduct listPd = new ListProduct();
         DefaultComboBoxModel<String> modelProduct = new DefaultComboBoxModel<>();
@@ -188,18 +186,18 @@ public class JPanelImport extends javax.swing.JPanel {
         }
         comboBoxProductName.setModel(modelProduct);
     }
-    
+
     private void setImportID() {
         jTableImport.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int selectedRowIndex = jTableImport.getSelectedRow();
-                
+
                 showListDetailImport(listDip.getListTemp(jTableImport.getValueAt(selectedRowIndex, 0).toString()));
             }
         });
     }
-    
+
     public void showListImport(ArrayList<ImportDTO> list) {
         DefaultTableModel importTable = (DefaultTableModel) jTableImport.getModel();
         importTable.setRowCount(0);
@@ -210,7 +208,7 @@ public class JPanelImport extends javax.swing.JPanel {
             importTable.addRow(new Object[]{ipDTO.getImportID(), ipDTO.getDate(), ipDTO.getTotalCost()});
         }
     }
-    
+
     public void showListDetailImport(ArrayList<DetailImportDTO> list) {
         DefaultTableModel importDetailTable = (DefaultTableModel) jTableImportDetail.getModel();
         importDetailTable.setRowCount(0);
@@ -470,6 +468,11 @@ public class JPanelImport extends javax.swing.JPanel {
         });
 
         buttonDelete.setText("Xóa sản phẩm");
+        buttonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDeleteActionPerformed(evt);
+            }
+        });
 
         buttonFix.setText("Sửa phiếu nhập");
         buttonFix.addActionListener(new java.awt.event.ActionListener() {
@@ -655,30 +658,46 @@ public class JPanelImport extends javax.swing.JPanel {
 
     private void textFieldImportPriceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldImportPriceKeyReleased
         String importPriceStr = textFieldImportPrice.getText().trim();
-        
+
+        if (importPriceStr.isEmpty()) {
+            return;
+        }
+
         if (!Tool.isDouble(importPriceStr)) {
-            JOptionPane.showMessageDialog(this, "Giá nhập vào của sản phẩm phải là số dương.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Giá nhập vào của sản phẩm không hợp lệ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             textFieldImportPrice.setText("");
         }
     }//GEN-LAST:event_textFieldImportPriceKeyReleased
 
     private void textFieldQuantityKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldQuantityKeyReleased
         String quantityStr = textFieldQuantity.getText().trim();
-        
+
+        if (quantityStr.isEmpty()) {
+            return;
+        }
+
         if (!Tool.isInt(quantityStr)) {
-            JOptionPane.showMessageDialog(this, "Số lượng của sản phẩm phải là số nguyên dương.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Số lượng của sản phẩm không hợp lệ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             textFieldQuantity.setText("");
         }
     }//GEN-LAST:event_textFieldQuantityKeyReleased
 
     private void textFieldProductPriceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldProductPriceKeyReleased
         String productPriceStr = textFieldProductPrice.getText().trim();
-        
+
+        if (productPriceStr.isEmpty()) {
+            return;
+        }
+
         if (!Tool.isDouble(productPriceStr)) {
-            JOptionPane.showMessageDialog(this, "Giá bán ra của sản phẩm phải là số dương.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Giá bán ra của sản phẩm không hợp lệ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             textFieldProductPrice.setText("");
         }
     }//GEN-LAST:event_textFieldProductPriceKeyReleased
+
+    private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonDeleteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

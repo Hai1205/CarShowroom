@@ -236,7 +236,6 @@ public class JPanelSupplier extends javax.swing.JPanel {
             }
         });
 
-        textFieldSupplierName.setEnabled(false);
         textFieldSupplierName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldSupplierNameActionPerformed(evt);
@@ -417,7 +416,11 @@ public class JPanelSupplier extends javax.swing.JPanel {
     private void textFieldSupplierAddressKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldSupplierAddressKeyReleased
         String address = textFieldSupplierAddress.getText().trim();
 
-        if (!Tool.isName(address)) {
+        if (address.isEmpty()) {
+            return;
+        }
+
+        if (address.length() > 200) {
             JOptionPane.showMessageDialog(this, "Địa chỉ của nhà cung cấp không hợp lệ");
             textFieldSupplierAddress.setText("");
         }
@@ -426,18 +429,34 @@ public class JPanelSupplier extends javax.swing.JPanel {
     private void textFieldSupplierNumberPhoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldSupplierNumberPhoneKeyReleased
         String phone = textFieldSupplierNumberPhone.getText().trim();
 
+        if (phone.length() < 10) {
+            return;
+        }
+
         if (!Tool.checkPhone(phone)) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đúng định dạng số điện thoại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            textFieldSupplierNumberPhone.setText("");
+        } else if (!listSp.checkPhoneExist(phone)) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại này đã được sử dụng.", "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
             textFieldSupplierNumberPhone.setText("");
         }
     }//GEN-LAST:event_textFieldSupplierNumberPhoneKeyReleased
 
     private void textFieldSupplierNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldSupplierNameKeyReleased
-         String supplierName = textFieldSupplierName.getText().trim();
+        String supplierName = textFieldSupplierName.getText().trim();
+
+        if (supplierName.isEmpty()) {
+            return;
+        }
 
         if (!Tool.isName(supplierName)) {
             JOptionPane.showMessageDialog(this, "Tên nhà cung cấp không hợp lệ");
             textFieldSupplierName.setText("");
+        } else if (!listSp.checkNameExist(supplierName)) {
+            JOptionPane.showMessageDialog(this, "Tên nhà cung cấp này đã được sử dụng.", "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
+            textFieldSupplierNumberPhone.setText("");
         }
     }//GEN-LAST:event_textFieldSupplierNameKeyReleased
 

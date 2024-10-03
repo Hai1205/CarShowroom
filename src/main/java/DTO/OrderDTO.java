@@ -9,8 +9,8 @@ package DTO;
  * @author PC
  */
 public class OrderDTO{
-    private String idProduct, nameProduct, type;
-    private int quantity, seat;
+    private final String idProduct, nameProduct, type;
+    private final int quantity, seat;
     private double price, discoutPercent, cost;
     
     public OrderDTO(String idProduct, String nameProduct, String type, int seat, int quantity, double price, double cost){
