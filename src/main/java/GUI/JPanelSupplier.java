@@ -24,6 +24,11 @@ public class JPanelSupplier extends javax.swing.JPanel {
     private ListSupplier listSp;
     private SupplierBUS splBUS;
     private int selectedRowIndex;
+    private boolean flat;
+
+    public boolean isFlat() {
+        return flat;
+    }
 
     public JPanelSupplier() {
         initComponents();
@@ -187,7 +192,7 @@ public class JPanelSupplier extends javax.swing.JPanel {
                     .addComponent(buttonAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(buttonFix, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(buttonShowAll, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,6 +213,11 @@ public class JPanelSupplier extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Địa chỉ");
 
+        textFieldSupplierNumberPhone.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                textFieldSupplierNumberPhoneFocusLost(evt);
+            }
+        });
         textFieldSupplierNumberPhone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldSupplierNumberPhoneActionPerformed(evt);
@@ -257,7 +267,7 @@ public class JPanelSupplier extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -277,14 +287,13 @@ public class JPanelSupplier extends javax.swing.JPanel {
                             .addComponent(textFieldSupplierName, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(textFieldSupplierAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(textFieldSupplierID, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(labelPictureSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45)
+                        .addGap(26, 26, 26)
+                        .addComponent(labelPictureSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 944, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 944, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -294,9 +303,9 @@ public class JPanelSupplier extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(28, 28, 28)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(textFieldSupplierID, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -311,12 +320,13 @@ public class JPanelSupplier extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel4)
-                                    .addComponent(textFieldSupplierNumberPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(42, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(labelPictureSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31))))
+                                    .addComponent(textFieldSupplierNumberPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(labelPictureSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(32, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -421,26 +431,15 @@ public class JPanelSupplier extends javax.swing.JPanel {
         }
 
         if (address.length() > 200) {
+            flat = true;
             JOptionPane.showMessageDialog(this, "Địa chỉ của nhà cung cấp không hợp lệ");
             textFieldSupplierAddress.setText("");
+            textFieldSupplierAddress.requestFocus();
+            flat = false;
         }
     }//GEN-LAST:event_textFieldSupplierAddressKeyReleased
 
     private void textFieldSupplierNumberPhoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldSupplierNumberPhoneKeyReleased
-        String phone = textFieldSupplierNumberPhone.getText().trim();
-
-        if (phone.length() < 10) {
-            return;
-        }
-
-        if (!Tool.checkPhone(phone)) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập đúng định dạng số điện thoại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            textFieldSupplierNumberPhone.setText("");
-        } else if (!listSp.checkPhoneExist(phone)) {
-            JOptionPane.showMessageDialog(this, "Số điện thoại này đã được sử dụng.", "Thông báo",
-                    JOptionPane.WARNING_MESSAGE);
-            textFieldSupplierNumberPhone.setText("");
-        }
     }//GEN-LAST:event_textFieldSupplierNumberPhoneKeyReleased
 
     private void textFieldSupplierNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldSupplierNameKeyReleased
@@ -451,14 +450,39 @@ public class JPanelSupplier extends javax.swing.JPanel {
         }
 
         if (!Tool.isName(supplierName)) {
+            flat = true;
             JOptionPane.showMessageDialog(this, "Tên nhà cung cấp không hợp lệ");
             textFieldSupplierName.setText("");
+            textFieldSupplierName.requestFocus();
+            flat = false;
         } else if (!listSp.checkNameExist(supplierName)) {
+            flat = true;
             JOptionPane.showMessageDialog(this, "Tên nhà cung cấp này đã được sử dụng.", "Thông báo",
                     JOptionPane.WARNING_MESSAGE);
             textFieldSupplierNumberPhone.setText("");
+            textFieldSupplierName.requestFocus();
+            flat = false;
         }
     }//GEN-LAST:event_textFieldSupplierNameKeyReleased
+
+    private void textFieldSupplierNumberPhoneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldSupplierNumberPhoneFocusLost
+        String phone = textFieldSupplierNumberPhone.getText().trim();
+
+        if (!Tool.checkPhone(phone)) {
+            flat = true;
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập đúng định dạng số điện thoại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            textFieldSupplierNumberPhone.setText("");
+            textFieldSupplierNumberPhone.requestFocus();
+            flat = false;
+        } else if (!listSp.checkPhoneExist(phone)) {
+            flat = true;
+            JOptionPane.showMessageDialog(this, "Số điện thoại này đã được sử dụng.", "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
+            textFieldSupplierNumberPhone.setText("");
+            textFieldSupplierNumberPhone.requestFocus();
+            flat = false;
+        }
+    }//GEN-LAST:event_textFieldSupplierNumberPhoneFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

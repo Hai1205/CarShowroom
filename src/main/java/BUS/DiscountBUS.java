@@ -65,24 +65,39 @@ public class DiscountBUS implements ActionListener {
         jPanelDiscount.getButtonAdd().setEnabled(bool);
     }
 
+    private boolean valid() {
+        if (discountName == null || discountName.isEmpty()) {
+            JOptionPane.showMessageDialog(jPanelDiscount, "Tên khuyến mãi không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            jPanelDiscount.getTextFieldDiscountName().requestFocus();
+            return false;
+        } else if (begin == null || begin.isEmpty()) {
+            JOptionPane.showMessageDialog(jPanelDiscount, "Ngày bắt đầu không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            jPanelDiscount.getTextFieldDiscountStartDay().requestFocus();
+            return false;
+        } else if (end == null || end.isEmpty()) {
+            JOptionPane.showMessageDialog(jPanelDiscount, "Ngày kết thúc không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            jPanelDiscount.getTextFieldDiscountEndDay().requestFocus();
+            return false;
+        } else if (percentDiscount == null || percentDiscount.isEmpty()) {
+            JOptionPane.showMessageDialog(jPanelDiscount, "Phần trăm giảm giá không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            jPanelDiscount.getTextFieldContent().requestFocus();
+            return false;
+        }
+        return true;
+    }
+
     private void add() {
         discountID = listDc.createDiscountID();
 
-        getDiscount();
-        if (discountName == null || discountName.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelDiscount, "Tên khuyến mãi không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (begin == null || begin.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelDiscount, "Ngày bắt đầu không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (end == null || end.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelDiscount, "Ngày kết thúc không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (percentDiscount == null || percentDiscount.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelDiscount, "Phần trăm giảm giá không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        if (jPanelDiscount.isFlat()) {
             return;
         }
-        
+
+        getDiscount();
+        if (!valid()) {
+            return;
+        }
+
         listDc.add(discountID, discountName, Double.parseDouble(percentDiscount), begin, end);
         DiscountDAL.setAllDiscounts(listDc.getList());
         jPanelDiscount.showList(listDc.getList());
@@ -90,23 +105,17 @@ public class DiscountBUS implements ActionListener {
     }
 
     private void fix() {
+        if (jPanelDiscount.isFlat()) {
+            return;
+        }
+
         int selectedRow = jPanelDiscount.getJTableDiscount().getSelectedRow();
         getDiscount();
 
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(jPanelDiscount, "Xin hãy chọn phiếu khuyến mãi cần sửa.", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
-        } else if (discountName == null || discountName.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelDiscount, "Tên khuyến mãi không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (begin == null || begin.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelDiscount, "Ngày bắt đầu không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (end == null || end.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelDiscount, "Ngày kết thúc không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (percentDiscount == null || percentDiscount.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelDiscount, "Phần trăm giảm giá không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        } else if (!valid()) {
             return;
         }
 

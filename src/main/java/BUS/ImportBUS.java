@@ -82,20 +82,34 @@ public class ImportBUS implements ActionListener {
         jPanelImport.getButtonAdd().setEnabled(bool);
     }
 
-    private void add() {
-        getInfo();
-
+    private boolean valid() {
         if (productID == null || productID.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelImport, "Xin hãy chọn sản phẩm cần thêm.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
+            jPanelImport.getComboBoxProductName().requestFocus();
+            return false;
         } else if (importPriceStr == null || importPriceStr.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelImport, "Xin hãy nhập giá nhập vào của sản phẩm cần thêm.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
+            jPanelImport.getTextFieldImportPrice().requestFocus();
+            return false;
         } else if (quantityStr == null || quantityStr.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelImport, "Xin hãy nhập số lượng của sản phẩm cần thêm.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
+            jPanelImport.getTextFieldQuantity().requestFocus();
+            return false;
         } else if (productPriceStr == null || productPriceStr.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelImport, "Xin hãy nhập giá bán ra của sản phẩm cần thêm.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            jPanelImport.getTextFieldProductPrice().requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    private void add() {
+        if (jPanelImport.isFlat()) {
+            return;
+        }
+
+        getInfo();
+        if (!valid()) {
             return;
         }
 
@@ -121,6 +135,10 @@ public class ImportBUS implements ActionListener {
     }
 
     private void delete() {
+        if (jPanelImport.isFlat()) {
+            return;
+        }
+
         if (importTempTable.getRowCount() == 0) {
             JOptionPane.showMessageDialog(jPanelImport, "Phiếu nhập hiện đang trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
@@ -130,7 +148,7 @@ public class ImportBUS implements ActionListener {
             JOptionPane.showMessageDialog(jPanelImport, "Xin hãy chọn đơn hàng cần xóa.", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         int option = JOptionPane.showConfirmDialog(jPanelImport, "Bạn có chắc muốn xóa sản phẩm ra khỏi phiếu nhập không?",
                 "Cảnh báo", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {
@@ -142,22 +160,15 @@ public class ImportBUS implements ActionListener {
     }
 
     private void fix() {
-        getInfo();
+        if (jPanelImport.isFlat()) {
+            return;
+        }
 
+        getInfo();
         if (selectedRowIndex == -1) {
             JOptionPane.showMessageDialog(jPanelImport, "Xin hãy chọn đơn hàng cần sửa.", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
-        } else if (productID == null || productID.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelImport, "Xin hãy chọn sản phẩm cần sửa.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (importPriceStr == null || importPriceStr.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelImport, "Xin hãy nhập giá nhập vào của sản phẩm cần sửa.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (quantityStr == null || quantityStr.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelImport, "Xin hãy nhập số lượng của sản phẩm cần sửa.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (productPriceStr == null || productPriceStr.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelImport, "Xin hãy nhập giá bán ra của sản phẩm cần sửa.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        } else if (!valid()) {
             return;
         }
 
@@ -177,6 +188,10 @@ public class ImportBUS implements ActionListener {
     }
 
     private void confirm() {
+        if (jPanelImport.isFlat()) {
+            return;
+        }
+
         int rowCount = importTempTable.getRowCount();
         if (rowCount == 0) {
             JOptionPane.showMessageDialog(jPanelImport, "Phiếu nhập hiện đang trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
@@ -214,6 +229,10 @@ public class ImportBUS implements ActionListener {
     }
 
     private void cancle() {
+        if (jPanelImport.isFlat()) {
+            return;
+        }
+
         int rowCount = importTempTable.getRowCount();
         if (rowCount == 0) {
             JOptionPane.showMessageDialog(jPanelImport, "Phiếu nhập hiện đang trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);

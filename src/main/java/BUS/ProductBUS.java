@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -165,36 +164,21 @@ public class ProductBUS implements ActionListener {
     }
 
     private void fix() {
+        if (jPanelProduct.isFlat()) {
+            return;
+        }
+
         int selectedRow = jPanelProduct.getJTableProduct().getSelectedRow();
         getInforJPanelProduct();
 
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(jPanelProduct, "Xin hãy chọn sản phẩm cần sửa.", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
-        } else if (productName == null || productName.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelProduct, "Tên xe không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (supplierName.equals("Nhấp để chọn")) {
-            JOptionPane.showMessageDialog(jPanelProduct, "Vui lòng chọn nhà cung cấp.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (type == null || type.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelProduct, "Loại xe không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (MFG == null || MFG.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelProduct, "Năm sản xuất không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (seat == null || seat.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelProduct, "Số chỗ ngồi không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (series == null || series.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelProduct, "Dòng xe không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (fuel == null || fuel.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelProduct, textFuel + " không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        } else if (!valid()) {
             return;
         }
 
-        productID = jPanelProduct.productID;
+        productID = jPanelProduct.getProductID();
         listPd.fix(selectedRow, productName, supplierName, Double.valueOf(price), status);
         listDpd.fix(productID, MFG, Integer.parseInt(seat), series, Integer.parseInt(fuel));
         ProductDAL.setAllProducts(listPd.getList());
@@ -279,29 +263,46 @@ public class ProductBUS implements ActionListener {
         }
     }
 
-    public void add() {
-        getInforJPanelProduct();
-
+    private boolean valid() {
         if (productName == null || productName.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelProduct, "Tên xe không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
+            jPanelProduct.getTextFiedProductName().requestFocus();
+            return false;
         } else if (supplierName.equals("Nhấp để chọn")) {
             JOptionPane.showMessageDialog(jPanelProduct, "Vui lòng chọn nhà cung cấp.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
+            jPanelProduct.getComboboxSupplierName().requestFocus();
+            return false;
         } else if (type == null || type.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelProduct, "Loại xe không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
+            jPanelProduct.getComboboxType().requestFocus();
+            return false;
         } else if (MFG == null || MFG.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelProduct, "Năm sản xuất không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
+            jPanelProduct.getTextFieldMFG().requestFocus();
+            return false;
         } else if (seat == null || seat.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelProduct, "Số chỗ ngồi không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
+            jPanelProduct.getTextFieldSeat().requestFocus();
+            return false;
         } else if (series == null || series.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelProduct, "Dòng xe không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
+            jPanelProduct.getTxtFieldSeries().requestFocus();
+            return false;
         } else if (fuel == null || fuel.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelProduct, textFuel + " không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            jPanelProduct.getTextFieldFuel().requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    public void add() {
+        if (jPanelProduct.isFlat()) {
+            return;
+        }
+
+        getInforJPanelProduct();
+        if (!valid()) {
             return;
         }
 

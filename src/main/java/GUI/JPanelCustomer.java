@@ -24,6 +24,7 @@ public class JPanelCustomer extends javax.swing.JPanel {
     private ListCustomer listCtm;
     private CustomerBUS ctmBUS;
     private int selectedRowIndex;
+    private boolean flat;
 
     public JPanelCustomer() {
         initComponents();
@@ -43,6 +44,10 @@ public class JPanelCustomer extends javax.swing.JPanel {
 
         setCustomer();
         showList(listCtm.getList());
+    }
+
+    public boolean isFlat() {
+        return flat;
     }
 
     public javax.swing.JButton getButtonAdd() {
@@ -198,6 +203,11 @@ public class JPanelCustomer extends javax.swing.JPanel {
             }
         });
 
+        textFieldCustomerPhone.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                textFieldCustomerPhoneFocusLost(evt);
+            }
+        });
         textFieldCustomerPhone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldCustomerPhoneActionPerformed(evt);
@@ -452,8 +462,11 @@ public class JPanelCustomer extends javax.swing.JPanel {
         }
 
         if (!Tool.isName(firstname)) {
+            flat = true;
             JOptionPane.showMessageDialog(this, "Họ của khách hàng không hợp lệ");
             textFieldCustomerFirstname.setText("");
+            textFieldCustomerFirstname.requestFocus();
+            flat = false;
         }
     }//GEN-LAST:event_textFieldCustomerFirstnameKeyReleased
 
@@ -465,8 +478,11 @@ public class JPanelCustomer extends javax.swing.JPanel {
         }
 
         if (!Tool.isName(lastname)) {
+            flat = true;
             JOptionPane.showMessageDialog(this, "Tên của khách hàng không hợp lệ");
             textFieldCustomerLastname.setText("");
+            textFieldCustomerLastname.requestFocus();
+            flat = false;
         }
     }//GEN-LAST:event_textFieldCustomerLastnameKeyReleased
 
@@ -478,28 +494,38 @@ public class JPanelCustomer extends javax.swing.JPanel {
         }
 
         if (address.length() > 200) {
+            flat = true;
             JOptionPane.showMessageDialog(this, "Địa chỉ của khách hàng không hợp lệ");
             textFieldCustomerAddress.setText("");
+            textFieldCustomerAddress.requestFocus();
+            flat = false;
         }
     }//GEN-LAST:event_textFieldCustomerAddressKeyReleased
 
     private void textFieldCustomerPhoneKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldCustomerPhoneKeyReleased
+
+    }//GEN-LAST:event_textFieldCustomerPhoneKeyReleased
+
+    private void textFieldCustomerPhoneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldCustomerPhoneFocusLost
         String phone = textFieldCustomerPhone.getText().trim();
 
-        if (phone.length() < 10) {
-            return;
-        }
-
         if (!Tool.checkPhone(phone)) {
+            flat = true;
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đúng định dạng số điện thoại của khách hàng.", "Thông báo",
                     JOptionPane.WARNING_MESSAGE);
+            flat = false;
             textFieldCustomerPhone.setText("");
+            textFieldCustomerPhone.requestFocus();
         } else if (!listCtm.checkPhoneExist(phone)) {
+            flat = true;
             JOptionPane.showMessageDialog(this, "Số điện thoại này đã được sử dụng.", "Thông báo",
                     JOptionPane.WARNING_MESSAGE);
+            flat = false;
             textFieldCustomerPhone.setText("");
+            textFieldCustomerPhone.requestFocus();
         }
-    }//GEN-LAST:event_textFieldCustomerPhoneKeyReleased
+
+    }//GEN-LAST:event_textFieldCustomerPhoneFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

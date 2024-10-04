@@ -65,6 +65,10 @@ public class SupplierBUS implements ActionListener {
     }
 
     private void add() {
+        if (jPanelSupplier.isFlat()) {
+            return;
+        }
+        
         getSupplier();
         if (name == null || name.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelSupplier, "Tên nhà cung cấp không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
@@ -85,6 +89,10 @@ public class SupplierBUS implements ActionListener {
     }
 
     private void fix() {
+        if (jPanelSupplier.isFlat()) {
+            return;
+        }
+        
         int selectedRow = jPanelSupplier.getJTableSupplier().getSelectedRow();
         getSupplier();
 

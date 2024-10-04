@@ -75,31 +75,47 @@ public class EmployeeBUS implements ActionListener {
         jPanelEmployee.getButtonAdd().setEnabled(bool);
         jPanelEmployee.getTextFieldEmployeeUsername().setEnabled(bool);
     }
-    
-    public boolean searchByUsername(String username){
+
+    public boolean searchByUsername(String username) {
         return listEp.searchByUsername(username) != -1;
     }
 
-    private void add() {
-        getEmployee();
-
+    private boolean valid() {
         if (username == null || username.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelEmployee, "Tên đăng nhập không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
+            jPanelEmployee.getTextFieldEmployeeUsername().requestFocus();
+            return false;
         } else if (password == null || password.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelEmployee, "Mật khẩu không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
+            jPanelEmployee.getTextFieldEmployeePassword().requestFocus();
+            return false;
         } else if (firstname == null || firstname.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelEmployee, "Họ của nhân viên không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
+            jPanelEmployee.getTextFieldEmployeeFirstname().requestFocus();
+            return false;
         } else if (lastname == null || lastname.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelEmployee, "Tên của nhân viên không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
+            jPanelEmployee.getTextFieldEmployeeLastname().requestFocus();
+            return false;
         } else if (DOB == null || DOB.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelEmployee, "Ngày sinh của nhân viên không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
+            jPanelEmployee.getTextFieldEmployeeDOB().requestFocus();
+            return false;
         } else if (salary == null || salary.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelEmployee, "Tiền lương của nhân viên không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            jPanelEmployee.getTextFieldEmployeeSalary().requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    private void add() {
+        if (jPanelEmployee.isFlat()) {
+            return;
+        }
+
+        getEmployee();
+        if (!valid()) {
             return;
         }
 
@@ -112,28 +128,16 @@ public class EmployeeBUS implements ActionListener {
     }
 
     private void fix() {
+        if (jPanelEmployee.isFlat()) {
+            return;
+        }
+
         int selectedRow = jPanelEmployee.getJTableEmployee().getSelectedRow();
         getEmployee();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(jPanelEmployee, "Xin hãy chọn nhân viên cần sửa.", "Thông báo", JOptionPane.ERROR_MESSAGE);
             return;
-        } else if (username == null || username.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelEmployee, "Tên đăng nhập không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (password == null || password.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelEmployee, "Mật khẩu không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (firstname == null || firstname.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelEmployee, "Họ của nhân viên không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (lastname == null || lastname.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelEmployee, "Tên của nhân viên không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (DOB == null || DOB.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelEmployee, "Ngày sinh của nhân viên không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (salary == null || salary.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelEmployee, "Tiền lương của nhân viên không được để trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        } else if (!valid()) {
             return;
         }
 

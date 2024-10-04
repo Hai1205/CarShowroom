@@ -1,4 +1,6 @@
+GUI\JPanelEmployee$19.class
 GUI\JPanelCustomer$5.class
+GUI\JPanelDiscount$15.class
 GUI\JPanelSupplier$2.class
 GUI\JPanelMenu$3.class
 BUS\ProductBUS$1.class
@@ -16,6 +18,7 @@ GUI\JPanelListProducts$5.class
 GUI\JPanelOrder$11.class
 BUS\CreateImage$1.class
 GUI\JPanelOrder$4.class
+GUI\JPanelEmployee$20.class
 GUI\JPanelImport$6.class
 GUI\JPanelOrder$17.class
 GUI\JPanelEmployee$8.class
@@ -53,8 +56,11 @@ BUS\EmployeeBUS.class
 GUI\JPanelListProducts$4.class
 GUI\JPanelImport$5.class
 GUI\JPanelListProducts$7.class
+GUI\JPanelProduct$16.class
+GUI\JPanelCustomer$13.class
 DTO\ListImport.class
 GUI\JPanelOrder$13.class
+GUI\JPanelDiscount$14.class
 GUI\JPanelCustomer$6.class
 GUI\JPanelDiscount$8.class
 DTO\ListCustomer.class
@@ -77,6 +83,7 @@ DTO\ProductDTO.class
 GUI\JPanelProduct$3.class
 GUI\JPanelCustomer$3.class
 GUI\JPanelMenu$8.class
+GUI\JPanelDiscount$13.class
 GUI\JPanelEmployee$13.class
 DTO\CustomerDTO.class
 GUI\JPanelMenu$11.class
@@ -176,6 +183,7 @@ GUI\LoginGUI$4.class
 GUI\JPanelCustomer$9.class
 GUI\JPanelMenu$4.class
 GUI\JPanelMenu$19.class
+GUI\JPanelSupplier$12.class
 GUI\JPanelOrder$19.class
 GUI\JPanelMenu$17.class
 GUI\JPanelMenu$2.class

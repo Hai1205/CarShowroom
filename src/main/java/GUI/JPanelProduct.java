@@ -27,8 +27,21 @@ public class JPanelProduct extends javax.swing.JPanel {
     private ListProduct listPd;
     private ProductBUS pdBUS;
     private ListDetailProduct listDpd;
-    public String productID;
-    public int selectedRowIndex;
+    private String productID;
+    private int selectedRowIndex;
+    private boolean flat;
+
+    public String getProductID() {
+        return productID;
+    }
+
+    public int getSelectedRowIndex() {
+        return selectedRowIndex;
+    }
+
+    public boolean isFlat() {
+        return flat;
+    }
 
     public JPanelProduct() {
         initComponents();
@@ -348,6 +361,11 @@ public class JPanelProduct extends javax.swing.JPanel {
 
         fuelLabel.setText("Dung tích bình xăng");
 
+        textFieldMFG.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                textFieldMFGFocusLost(evt);
+            }
+        });
         textFieldMFG.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 textFieldMFGKeyReleased(evt);
@@ -722,8 +740,8 @@ public class JPanelProduct extends javax.swing.JPanel {
         String productName = textFiedProductName.getText().trim();
 
         if (productName.length() > 200) {
-        JOptionPane.showMessageDialog(this, "Tên xe không hợp lệ");
-        textFiedProductName.setText("");
+            JOptionPane.showMessageDialog(this, "Tên xe không hợp lệ");
+            textFiedProductName.setText("");
         } else if (!listPd.checkNameExist(productName)) {
             JOptionPane.showMessageDialog(this, "Tên nhà sản phẩm này đã được sử dụng.", "Thông báo",
                     JOptionPane.WARNING_MESSAGE);
@@ -732,16 +750,6 @@ public class JPanelProduct extends javax.swing.JPanel {
     }//GEN-LAST:event_textFiedProductNameKeyReleased
 
     private void textFieldMFGKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldMFGKeyReleased
-        String MFG = textFieldMFG.getText().trim();
-
-        if (MFG.length() < 4) {
-            return;
-        }
-
-        if (!Tool.checkMFG(MFG)) {
-            JOptionPane.showMessageDialog(this, "Năm sản xuất không hợp lệ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            textFieldMFG.setText("");
-        }
     }//GEN-LAST:event_textFieldMFGKeyReleased
 
     private void textFieldSeatKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldSeatKeyReleased
@@ -752,8 +760,11 @@ public class JPanelProduct extends javax.swing.JPanel {
         }
 
         if (!Tool.isInt(seat)) {
+            flat = true;
             JOptionPane.showMessageDialog(this, "số chõ ngồi không hơp lệ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             textFieldSeat.setText("");
+            textFieldSeat.requestFocus();
+            flat = false;
         }
     }//GEN-LAST:event_textFieldSeatKeyReleased
 
@@ -761,8 +772,11 @@ public class JPanelProduct extends javax.swing.JPanel {
         String series = txtFieldSeries.getText().trim();
 
         if (!Tool.isName(series)) {
+            flat = true;
             JOptionPane.showMessageDialog(this, "Dòng xe không hợp lệ");
             txtFieldSeries.setText("");
+            txtFieldSeries.requestFocus();
+            flat = false;
         }
     }//GEN-LAST:event_txtFieldSeriesKeyReleased
 
@@ -782,10 +796,25 @@ public class JPanelProduct extends javax.swing.JPanel {
         }
 
         if (!Tool.isInt(fuel)) {
+            flat = true;
             JOptionPane.showMessageDialog(this, textFuel + " không hợp lệ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             textFieldFuel.setText("");
+            textFieldFuel.requestFocus();
+            flat = false;
         }
     }//GEN-LAST:event_textFieldFuelKeyReleased
+
+    private void textFieldMFGFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldMFGFocusLost
+        String MFG = textFieldMFG.getText().trim();
+
+        if (!Tool.checkMFG(MFG)) {
+            flat = true;
+            JOptionPane.showMessageDialog(this, "Năm sản xuất không hợp lệ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            textFieldMFG.setText("");
+            textFieldMFG.requestFocus();
+            flat = false;
+        }
+    }//GEN-LAST:event_textFieldMFGFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

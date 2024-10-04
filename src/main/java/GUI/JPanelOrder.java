@@ -990,11 +990,21 @@ public class JPanelOrder extends javax.swing.JPanel {
             if (quantityStr.isEmpty()) {
                 return;
             }
+            
+            String productID = textFieldProductID.getText();
+            if(productID.isEmpty()){
+                JOptionPane.showMessageDialog(this,
+                        "Vui lòng chọn sản phẩm trước khi nhập số lượng", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
+                choiceProduct.requestFocus();
+                textFieldQuantity.setText("");
+                return;
+            }
 
             int quantity = 0;
-            if (textFieldProductID.getText() != null || !"".equals(textFieldProductID.getText())) {
+            if (textFieldProductID.getText() != null || !"".equals(productID)) {
                 ListProduct listPd = new ListProduct();
-                ProductDTO pdDTO = listPd.searchProductByProductID(textFieldProductID.getText());
+                ProductDTO pdDTO = listPd.searchProductByProductID(productID);
                 quantity = pdDTO.getQuantity();
             }
 

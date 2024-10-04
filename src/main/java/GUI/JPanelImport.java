@@ -24,6 +24,11 @@ public class JPanelImport extends javax.swing.JPanel {
     private ListImport listIp;
     private ImportBUS ipBUS;
     private ListDetailImport listDip;
+    private boolean flat;
+
+    public boolean isFlat() {
+        return flat;
+    }
 
     public JPanelImport() {
         initComponents();
@@ -114,8 +119,8 @@ public class JPanelImport extends javax.swing.JPanel {
     public javax.swing.JTextField getTextFieldTotalCost() {
         return textFieldTotalCost;
     }
-    
-    public void setTextFieldTotalCost(String totalCost){
+
+    public void setTextFieldTotalCost(String totalCost) {
         textFieldTotalCost.setText(totalCost);
     }
 
@@ -664,8 +669,11 @@ public class JPanelImport extends javax.swing.JPanel {
         }
 
         if (!Tool.isDouble(importPriceStr)) {
+            flat = true;
             JOptionPane.showMessageDialog(this, "Giá nhập vào của sản phẩm không hợp lệ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             textFieldImportPrice.setText("");
+            textFieldImportPrice.requestFocus();
+            flat = false;
         }
     }//GEN-LAST:event_textFieldImportPriceKeyReleased
 
@@ -677,8 +685,11 @@ public class JPanelImport extends javax.swing.JPanel {
         }
 
         if (!Tool.isInt(quantityStr)) {
+            flat = true;
             JOptionPane.showMessageDialog(this, "Số lượng của sản phẩm không hợp lệ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             textFieldQuantity.setText("");
+            textFieldQuantity.requestFocus();
+            flat = false;
         }
     }//GEN-LAST:event_textFieldQuantityKeyReleased
 
@@ -690,8 +701,11 @@ public class JPanelImport extends javax.swing.JPanel {
         }
 
         if (!Tool.isDouble(productPriceStr)) {
+            flat = true;
             JOptionPane.showMessageDialog(this, "Giá bán ra của sản phẩm không hợp lệ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             textFieldProductPrice.setText("");
+            textFieldProductPrice.requestFocus();
+            flat = false;
         }
     }//GEN-LAST:event_textFieldProductPriceKeyReleased
 

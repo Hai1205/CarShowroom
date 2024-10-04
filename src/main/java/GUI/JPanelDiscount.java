@@ -8,7 +8,6 @@ import BUS.CreateImage;
 import javax.swing.table.DefaultTableModel;
 import DTO.*;
 import BUS.*;
-import static BUS.Tool.isName;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -25,6 +24,7 @@ public class JPanelDiscount extends javax.swing.JPanel {
     private ListDiscount listDc;
     private DiscountBUS dcBUS;
     private int selectedRowIndex;
+    private boolean flat;
 
     public JPanelDiscount() {
         initComponents();
@@ -44,6 +44,10 @@ public class JPanelDiscount extends javax.swing.JPanel {
 
         setDiscount();
         showList(listDc.getList());
+    }
+
+    public boolean isFlat() {
+        return flat;
     }
 
     public javax.swing.JButton getButtonAdd() {
@@ -190,6 +194,11 @@ public class JPanelDiscount extends javax.swing.JPanel {
             }
         });
 
+        textFieldDiscountStartDay.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                textFieldDiscountStartDayFocusLost(evt);
+            }
+        });
         textFieldDiscountStartDay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldDiscountStartDayActionPerformed(evt);
@@ -201,6 +210,11 @@ public class JPanelDiscount extends javax.swing.JPanel {
             }
         });
 
+        textFieldDiscountEndDay.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                textFieldDiscountEndDayFocusLost(evt);
+            }
+        });
         textFieldDiscountEndDay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldDiscountEndDayActionPerformed(evt);
@@ -212,6 +226,11 @@ public class JPanelDiscount extends javax.swing.JPanel {
             }
         });
 
+        textFieldContent.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                textFieldContentFocusLost(evt);
+            }
+        });
         textFieldContent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldContentActionPerformed(evt);
@@ -456,52 +475,81 @@ public class JPanelDiscount extends javax.swing.JPanel {
         }
 
         if (discountName.length() > 200) {
+            flat = true;
             JOptionPane.showMessageDialog(this, "Tên khuyến mãi không hợp lệ.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            flat = false;
+            textFieldDiscountName.requestFocus();
             textFieldDiscountName.setText("");
         } else if (!listDc.checkNameExist(discountName)) {
+            flat = true;
             JOptionPane.showMessageDialog(this, "Tên chương trình giảm giá này đã được sử dụng.", "Thông báo",
                     JOptionPane.WARNING_MESSAGE);
+            flat = false;
+            textFieldDiscountName.requestFocus();
             textFieldDiscountName.setText("");
         }
+
     }//GEN-LAST:event_textFieldDiscountNameKeyReleased
 
     private void textFieldDiscountStartDayKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldDiscountStartDayKeyReleased
+    }//GEN-LAST:event_textFieldDiscountStartDayKeyReleased
+
+    private void textFieldDiscountEndDayKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldDiscountEndDayKeyReleased
+    }//GEN-LAST:event_textFieldDiscountEndDayKeyReleased
+
+    private void textFieldContentKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldContentKeyReleased
+    }//GEN-LAST:event_textFieldContentKeyReleased
+
+    private void textFieldDiscountStartDayFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldDiscountStartDayFocusLost
         String begin = textFieldDiscountStartDay.getText().trim();
 
-        if (begin.length() < 10) {
+        if (begin.isEmpty()) {
             return;
         }
 
         if (!Tool.isValidDate(begin)) {
+            flat = true;
             JOptionPane.showMessageDialog(this, "Ngày bắt đầu không hợp lệ", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            flat = false;
             textFieldDiscountStartDay.setText("");
+            textFieldDiscountStartDay.requestFocus();
         }
-    }//GEN-LAST:event_textFieldDiscountStartDayKeyReleased
+    }//GEN-LAST:event_textFieldDiscountStartDayFocusLost
 
-    private void textFieldDiscountEndDayKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldDiscountEndDayKeyReleased
+    private void textFieldDiscountEndDayFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldDiscountEndDayFocusLost
         String end = textFieldDiscountEndDay.getText().trim();
         String begin = textFieldDiscountStartDay.getText().trim();
 
-        if (begin.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Phải nhập ngày bắt đầu trước", "Thông báo", JOptionPane.WARNING_MESSAGE);
-            textFieldDiscountStartDay.requestFocus();
-            textFieldDiscountEndDay.setText("");
+        if (end.isEmpty()) {
+            return;
         }
 
-        if (end.length() < 10) {
+        if (begin.isEmpty()) {
+            flat = true;
+            JOptionPane.showMessageDialog(this, "Phải nhập ngày bắt đầu trước", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            flat = false;
+            textFieldDiscountStartDay.requestFocus();
+            textFieldDiscountEndDay.setText("");
             return;
         }
 
         if (!Tool.isValidDate(end)) {
+            flat = true;
             JOptionPane.showMessageDialog(this, "ngày kết thúc không hơp lệ", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            flat = false;
             textFieldDiscountEndDay.setText("");
+            textFieldDiscountEndDay.requestFocus();
         } else if (Tool.strToDate(begin).isAfter(Tool.strToDate(end))) {
+            flat = true;
             JOptionPane.showMessageDialog(this, "Ngày kết thúc phải sau ngày bắt đầu.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            flat = false;
             textFieldDiscountEndDay.setText("");
+            textFieldDiscountEndDay.requestFocus();
         }
-    }//GEN-LAST:event_textFieldDiscountEndDayKeyReleased
 
-    private void textFieldContentKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldContentKeyReleased
+    }//GEN-LAST:event_textFieldDiscountEndDayFocusLost
+
+    private void textFieldContentFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldContentFocusLost
         String percentDiscount = textFieldContent.getText().trim();
 
         if (percentDiscount.isEmpty()) {
@@ -509,10 +557,13 @@ public class JPanelDiscount extends javax.swing.JPanel {
         }
 
         if (!Tool.isDiscount(percentDiscount)) {
+            flat = true;
             JOptionPane.showMessageDialog(this, "Phần trăm giảm giá phải là một số thực(bé hơn 1 và lớn hơn hoặc bằng 0)", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            flat = false;
             textFieldContent.setText("");
+            textFieldContent.requestFocus();
         }
-    }//GEN-LAST:event_textFieldContentKeyReleased
+    }//GEN-LAST:event_textFieldContentFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

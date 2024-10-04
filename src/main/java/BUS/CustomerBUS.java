@@ -65,23 +65,38 @@ public class CustomerBUS implements ActionListener {
         jPanelCustomer.getButtonAdd().setEnabled(bool);
     }
 
-    private void add() {
-        getCustomer();
+    private boolean valid() {
         if (firstname == null || firstname.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelCustomer, "Họ của khách hàng không được để trống.", "Thông báo",
                     JOptionPane.ERROR_MESSAGE);
-            return;
+            jPanelCustomer.getTextFieldCustomerFirstname().requestFocus();
+            return false;
         } else if (lastname == null || lastname.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelCustomer, "Tên của khách hàng không được để trống.", "Thông báo",
                     JOptionPane.ERROR_MESSAGE);
-            return;
+            jPanelCustomer.getTextFieldCustomerLastname().requestFocus();
+            return false;
         } else if (address == null || address.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelCustomer, "Địa chỉ của khách hàng không được để trống.", "Thông báo",
                     JOptionPane.ERROR_MESSAGE);
-            return;
+            jPanelCustomer.getTextFieldCustomerAddress().requestFocus();
+            return false;
         } else if (phone == null || phone.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelCustomer, "Số điện thoại của khách hàng không được để trống.", "Thông báo",
                     JOptionPane.ERROR_MESSAGE);
+            jPanelCustomer.getTextFieldCustomerPhone().requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    private void add() {
+        if (jPanelCustomer.isFlat()) {
+            return;
+        }
+
+        getCustomer();
+        if (!valid()) {
             return;
         }
 
@@ -93,6 +108,10 @@ public class CustomerBUS implements ActionListener {
     }
 
     private void fix() {
+        if (jPanelCustomer.isFlat()) {
+            return;
+        }
+
         int selectedRow = jPanelCustomer.getJTableCustomer().getSelectedRow();
         getCustomer();
 
@@ -100,21 +119,7 @@ public class CustomerBUS implements ActionListener {
             JOptionPane.showMessageDialog(jPanelCustomer, "Xin hãy chọn khách hàng cần sửa.", "Thông báo",
                     JOptionPane.ERROR_MESSAGE);
             return;
-        } else if (firstname == null || firstname.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelCustomer, "Họ của khách hàng không được để trống.", "Thông báo",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (lastname == null || lastname.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelCustomer, "Tên của khách hàng không được để trống.", "Thông báo",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (address == null || address.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelCustomer, "Địa chỉ của khách hàng không được để trống.", "Thông báo",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (phone == null || phone.isEmpty()) {
-            JOptionPane.showMessageDialog(jPanelCustomer, "Số điện thoại của khách hàng không được để trống.", "Thông báo",
-                    JOptionPane.ERROR_MESSAGE);
+        } else if (!valid()) {
             return;
         }
 
