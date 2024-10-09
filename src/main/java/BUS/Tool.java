@@ -207,7 +207,6 @@ public class Tool {
             return false;
         }
 
-        // Biểu thức chính quy cho phép chữ cái và số, khoảng trắng duy nhất
         String pattern = "^(?! )[a-zA-Z0-9]+( [a-zA-Z0-9]+)*(?! )$";
         Pattern p = Pattern.compile(pattern);
         Matcher m = p.matcher(name);

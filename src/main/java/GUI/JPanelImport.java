@@ -681,7 +681,7 @@ public class JPanelImport extends javax.swing.JPanel {
             textFieldImportPrice.setText("");
             textFieldImportPrice.requestFocus();
             flat = false;
-        }else if(Integer.parseInt(importPriceStr) > Integer.parseInt(productPriceStr)){
+        }else if(Double.parseDouble(importPriceStr) > Double.parseDouble(productPriceStr)){
             flat = true;
             JOptionPane.showMessageDialog(this, "Giá nhập vào phải thấp hơn hoặc bằng giá bán.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             textFieldImportPrice.setText("");
@@ -720,7 +720,7 @@ public class JPanelImport extends javax.swing.JPanel {
             textFieldProductPrice.setText("");
             textFieldProductPrice.requestFocus();
             flat = false;
-        }else if(Integer.parseInt(importPriceStr) > Integer.parseInt(productPriceStr)){
+        }else if(Double.parseDouble(importPriceStr) > Double.parseDouble(productPriceStr)){
             flat = true;
             JOptionPane.showMessageDialog(this, "Giá bán phải lớn hơn hoặc bằng giá nhập vào.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             textFieldProductPrice.setText("");

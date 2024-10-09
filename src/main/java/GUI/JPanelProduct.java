@@ -744,7 +744,7 @@ public class JPanelProduct extends javax.swing.JPanel {
     private void textFiedProductNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFiedProductNameKeyReleased
         String productName = textFiedProductName.getText().trim();
 
-        if (productName.length() > 200) {
+        if (!Tool.isAdress(productName)) {
             JOptionPane.showMessageDialog(this, "Tên xe không hợp lệ");
             textFiedProductName.setText("");
         } else if (!listPd.checkNameExist(productName)) {
