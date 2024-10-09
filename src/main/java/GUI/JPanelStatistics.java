@@ -8,16 +8,22 @@ import BUS.ImportBUS;
 import BUS.InvoiceBUS;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.text.FieldPosition;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 
 /**
  *
  * @author voota
  */
 public class JPanelStatistics extends javax.swing.JPanel {
-    private InvoiceBUS invoiceBUS;
-    private ImportBUS importBUS;
+
+    private final InvoiceBUS invoiceBUS;
+    private final ImportBUS importBUS;
+
     /**
      * Creates new form JPanelStatistics
      */
@@ -30,15 +36,40 @@ public class JPanelStatistics extends javax.swing.JPanel {
         this.setSize(960, 700);
         this.setVisible(true);
     }
-    
-    //    Thống kê doanh số theo năm
+
     public final void chartImport() {
         // Tạo biểu đồ thống kê
         JFreeChart chart = importBUS.createImportChart();
-        ChartPanel chartPanel = new ChartPanel(chart); // Tạo ChartPanel từ biểu đồ
+
+        // Lấy trục y từ biểu đồ
+        NumberAxis yAxis = (NumberAxis) chart.getCategoryPlot().getRangeAxis();
+
+        // Định dạng trục y với đơn vị "triệu VND"
+        NumberFormat currencyFormat = NumberFormat.getNumberInstance();
+        yAxis.setNumberFormatOverride(new NumberFormat() {
+            @Override
+            public StringBuffer format(double number, StringBuffer toAppendTo, FieldPosition pos) {
+                // Chia giá trị trên trục y cho 1 triệu
+                return toAppendTo.append(currencyFormat.format(number)).append(" triệu VND");
+            }
+
+            @Override
+            public StringBuffer format(long number, StringBuffer toAppendTo, FieldPosition pos) {
+                return format((double) number, toAppendTo, pos);
+            }
+
+            @Override
+            public Number parse(String source, ParsePosition parsePosition) {
+                return null; // Không cần thiết cho trường hợp này
+            }
+        });
+
+        // Tạo ChartPanel từ biểu đồ
+        ChartPanel chartPanel = new ChartPanel(chart);
         int width = 960; // Chiều rộng mong muốn
         int height = 325; // Chiều cao mong muốn
         chartPanel.setPreferredSize(new Dimension(width, height));
+
         // Thêm ChartPanel vào panel1
         panel1.setLayout(new BorderLayout()); // Thiết lập layout manager cho panel1
         panel1.add(chartPanel, BorderLayout.CENTER); // Thêm ChartPanel vào panel1
@@ -47,21 +78,47 @@ public class JPanelStatistics extends javax.swing.JPanel {
         panel1.revalidate();
         panel1.repaint();
     }
-    
-//    Thống kê doanh số theo năm
+
     public final void chartInvoice() {
         // Tạo biểu đồ thống kê
         JFreeChart chart = invoiceBUS.createChart();
-        ChartPanel chartPanel = new ChartPanel(chart); // Tạo ChartPanel từ biểu đồ
+
+        // Lấy trục y từ biểu đồ
+        NumberAxis yAxis = (NumberAxis) chart.getCategoryPlot().getRangeAxis();
+
+        // Định dạng trục y với đơn vị "triệu VND"
+        NumberFormat currencyFormat = NumberFormat.getNumberInstance();
+        yAxis.setNumberFormatOverride(new NumberFormat() {
+            @Override
+            public StringBuffer format(double number, StringBuffer toAppendTo, FieldPosition pos) {
+                // Chia giá trị trên trục y cho 1 triệu
+                number = number / 1_000_000;
+                return toAppendTo.append(currencyFormat.format(number)).append(" triệu VND");
+            }
+
+            @Override
+            public StringBuffer format(long number, StringBuffer toAppendTo, FieldPosition pos) {
+                return format((double) number, toAppendTo, pos);
+            }
+
+            @Override
+            public Number parse(String source, ParsePosition parsePosition) {
+                return null; // Không cần thiết cho trường hợp này
+            }
+        });
+
+        // Tạo ChartPanel từ biểu đồ
+        ChartPanel chartPanel = new ChartPanel(chart);
         int width = 960; // Chiều rộng mong muốn
         int height = 325; // Chiều cao mong muốn
         chartPanel.setPreferredSize(new Dimension(width, height));
-        // Thêm ChartPanel vào panel1
-        panel2.setLayout(new BorderLayout()); // Thiết lập layout manager cho panel1
-        
-        panel2.add(chartPanel, BorderLayout.CENTER); // Thêm ChartPanel vào panel1
+
+        // Thêm ChartPanel vào panel2
+        panel2.setLayout(new BorderLayout()); // Thiết lập layout manager cho panel2
+        panel2.add(chartPanel, BorderLayout.CENTER); // Thêm ChartPanel vào panel2
         panel2.setSize(960, 300);
-        // Cập nhật lại hiển thị của panel1
+
+        // Cập nhật lại hiển thị của panel2
         panel2.revalidate();
         panel2.repaint();
     }

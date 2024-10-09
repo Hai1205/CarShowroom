@@ -147,17 +147,21 @@ public class JPanelEmployee extends javax.swing.JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 selectedRowIndex = jTableEmployee.getSelectedRow();
-                epBUS.setEnabled(false);
-                textFieldEmployeeID.setText(jTableEmployee.getValueAt(selectedRowIndex, 0).toString());
-                textFieldEmployeeUsername.setText(jTableEmployee.getValueAt(selectedRowIndex, 1).toString());
-                textFieldEmployeePassword.setText(jTableEmployee.getValueAt(selectedRowIndex, 2).toString());
-                textFieldEmployeeFirstname.setText(jTableEmployee.getValueAt(selectedRowIndex, 3).toString());
-                textFieldEmployeeLastname.setText(jTableEmployee.getValueAt(selectedRowIndex, 4).toString());
-                textFieldEmployeeDOB.setText(jTableEmployee.getValueAt(selectedRowIndex, 5).toString());
-                textFieldEmployeeSalary.setText(jTableEmployee.getValueAt(selectedRowIndex, 6).toString());
-                comboBoxEmployeeStatus.setSelectedItem(jTableEmployee.getValueAt(selectedRowIndex, 7).toString());
+                showInfo();
             }
         });
+    }
+
+    private void showInfo() {
+        epBUS.setEnabled(false);
+        textFieldEmployeeID.setText(jTableEmployee.getValueAt(selectedRowIndex, 0).toString());
+        textFieldEmployeeUsername.setText(jTableEmployee.getValueAt(selectedRowIndex, 1).toString());
+        textFieldEmployeePassword.setText(jTableEmployee.getValueAt(selectedRowIndex, 2).toString());
+        textFieldEmployeeFirstname.setText(jTableEmployee.getValueAt(selectedRowIndex, 3).toString());
+        textFieldEmployeeLastname.setText(jTableEmployee.getValueAt(selectedRowIndex, 4).toString());
+        textFieldEmployeeDOB.setText(jTableEmployee.getValueAt(selectedRowIndex, 5).toString());
+        textFieldEmployeeSalary.setText(jTableEmployee.getValueAt(selectedRowIndex, 6).toString());
+        comboBoxEmployeeStatus.setSelectedItem(jTableEmployee.getValueAt(selectedRowIndex, 7).toString());
     }
 
     public void showList(ArrayList<EmployeeDTO> list) {
@@ -409,6 +413,11 @@ public class JPanelEmployee extends javax.swing.JPanel {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTableEmployee.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTableEmployeeKeyPressed(evt);
             }
         });
         jScrollPane2.setViewportView(jTableEmployee);
@@ -705,9 +714,19 @@ public class JPanelEmployee extends javax.swing.JPanel {
     private void textFieldEmployeeDOBFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldEmployeeDOBFocusLost
         String DOB = textFieldEmployeeDOB.getText().trim();
 
+        if (DOB.isEmpty()) {
+            return;
+        }
+
         if (!Tool.isValidDate(DOB)) {
             flat = true;
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đúng định dạng ngày sinh(dd/MM/yyyy)", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            textFieldEmployeeDOB.setText("");
+            textFieldEmployeeDOB.requestFocus();
+            flat = false;
+            flat = true;
+        } else if (!Tool.isEligibleToWork(DOB)) {
+            JOptionPane.showMessageDialog(this, "Tuổi của nhân viên phải trên 18", "Thông báo", JOptionPane.WARNING_MESSAGE);
             textFieldEmployeeDOB.setText("");
             textFieldEmployeeDOB.requestFocus();
             flat = false;
@@ -717,6 +736,10 @@ public class JPanelEmployee extends javax.swing.JPanel {
     private void textFieldEmployeePasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldEmployeePasswordFocusLost
         String password = textFieldEmployeePassword.getText().trim();
 
+        if (password.isEmpty()) {
+            return;
+        }
+
         if (!Tool.checkPassword(password)) {
             flat = true;
             JOptionPane.showMessageDialog(this, "Mật khẩu phải chứa ít nhất: \n6 ký tự.\n1 ký tự viết thường.\n1 ký tự viết hoa.\n1 chữ số.\n1 ký tự đặc biệt.", "Thông báo", JOptionPane.WARNING_MESSAGE);
@@ -725,6 +748,27 @@ public class JPanelEmployee extends javax.swing.JPanel {
             flat = false;
         }
     }//GEN-LAST:event_textFieldEmployeePasswordFocusLost
+
+    private void jTableEmployeeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableEmployeeKeyPressed
+        selectedRowIndex = jTableEmployee.getSelectedRow();
+        int rowCount = jTableEmployee.getRowCount();
+
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_UP -> {
+                if (selectedRowIndex > 0) {
+                    jTableEmployee.changeSelection(selectedRowIndex--, 0, false, false);
+                } else {
+                }
+            }
+            case KeyEvent.VK_DOWN -> {
+                if (selectedRowIndex == rowCount - 1) {
+                } else {
+                    jTableEmployee.changeSelection(selectedRowIndex++, 0, false, false);
+                }
+            }
+        }
+        showInfo();
+    }//GEN-LAST:event_jTableEmployeeKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

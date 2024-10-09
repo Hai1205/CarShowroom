@@ -113,13 +113,17 @@ public class JPanelSupplier extends javax.swing.JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 selectedRowIndex = jTableSupplier.getSelectedRow();
+                showInfo();
+            }
+        });
+    }
+    
+    private void showInfo(){
                 splBUS.setEnabled(false);
                 textFieldSupplierID.setText(jTableSupplier.getValueAt(selectedRowIndex, 0).toString());
                 textFieldSupplierName.setText(jTableSupplier.getValueAt(selectedRowIndex, 1).toString());
                 textFieldSupplierAddress.setText(jTableSupplier.getValueAt(selectedRowIndex, 2).toString());
                 textFieldSupplierNumberPhone.setText(jTableSupplier.getValueAt(selectedRowIndex, 3).toString());
-            }
-        });
     }
 
     public void showList(ArrayList<SupplierDTO> list) {
@@ -366,9 +370,21 @@ public class JPanelSupplier extends javax.swing.JPanel {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableSupplier.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTableSupplierKeyPressed(evt);
             }
         });
         jScrollPane3.setViewportView(jTableSupplier);
@@ -468,6 +484,10 @@ public class JPanelSupplier extends javax.swing.JPanel {
     private void textFieldSupplierNumberPhoneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldSupplierNumberPhoneFocusLost
         String phone = textFieldSupplierNumberPhone.getText().trim();
 
+        if (phone.isEmpty()) {
+            return;
+        }
+
         if (!Tool.checkPhone(phone)) {
             flat = true;
             JOptionPane.showMessageDialog(this, "Vui lòng nhập đúng định dạng số điện thoại.", "Thông báo", JOptionPane.WARNING_MESSAGE);
@@ -483,6 +503,27 @@ public class JPanelSupplier extends javax.swing.JPanel {
             flat = false;
         }
     }//GEN-LAST:event_textFieldSupplierNumberPhoneFocusLost
+
+    private void jTableSupplierKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableSupplierKeyPressed
+        selectedRowIndex = jTableSupplier.getSelectedRow();
+        int rowCount = jTableSupplier.getRowCount();
+
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_UP -> {
+                if (selectedRowIndex > 0) {
+                    jTableSupplier.changeSelection(selectedRowIndex--, 0, false, false);
+                } else {
+                }
+            }
+            case KeyEvent.VK_DOWN -> {
+                if (selectedRowIndex == rowCount - 1) {
+                } else {
+                    jTableSupplier.changeSelection(selectedRowIndex++, 0, false, false);
+                }
+            }
+        }
+        showInfo();
+    }//GEN-LAST:event_jTableSupplierKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

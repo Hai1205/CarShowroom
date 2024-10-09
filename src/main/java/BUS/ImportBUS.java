@@ -10,6 +10,8 @@ import DTO.*;
 import GUI.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -48,11 +50,45 @@ public class ImportBUS implements ActionListener {
         date = Tool.getCurrentDate();
         importTempTable = (DefaultTableModel) jPanelImport.getJTableTempImport().getModel();
         showListTempImport();
+
+        jTableTempImportMouseClicked();
+        jTableTempImportKeyPressed();
+    }
+
+    private void jTableTempImportMouseClicked() {
         jPanelImport.getJTableTempImport().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 selectedRowIndex = jPanelImport.getJTableTempImport().getSelectedRow();
-                setEnabled(false);
+//                setEnabled(false);
+                getInfoTable();
+                setInfo();
+            }
+        });
+    }
+
+    private void jTableTempImportKeyPressed() {
+        jPanelImport.getJTableTempImport().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                selectedRowIndex = jPanelImport.getJTableTempImport().getSelectedRow();
+                int rowCount = jPanelImport.getJTableTempImport().getRowCount();
+
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_UP -> {
+                        if (selectedRowIndex > 0) {
+                            jPanelImport.getJTableTempImport().changeSelection(selectedRowIndex--, 0, false, false);
+                        } else {
+                        }
+                    }
+                    case KeyEvent.VK_DOWN -> {
+                        if (selectedRowIndex == rowCount - 1) {
+                        } else {
+                            jPanelImport.getJTableTempImport().changeSelection(selectedRowIndex++, 0, false, false);
+                        }
+                    }
+                }
+//                setEnabled(false);
                 getInfoTable();
                 setInfo();
             }
@@ -76,12 +112,11 @@ public class ImportBUS implements ActionListener {
         }
     }
 
-    private void setEnabled(boolean bool) {
-        jPanelImport.getComboBoxSupplierName().setEnabled(bool);
-        jPanelImport.getComboBoxProductName().setEnabled(bool);
-        jPanelImport.getButtonAdd().setEnabled(bool);
-    }
-
+//    private void setEnabled(boolean bool) {
+//        jPanelImport.getComboBoxSupplierName().setEnabled(bool);
+//        jPanelImport.getComboBoxProductName().setEnabled(bool);
+//        jPanelImport.getButtonAdd().setEnabled(bool);
+//    }
     private boolean valid() {
         if (productID == null || productID.isEmpty()) {
             JOptionPane.showMessageDialog(jPanelImport, "Xin hãy chọn sản phẩm cần thêm.", "Thông báo", JOptionPane.ERROR_MESSAGE);
@@ -113,18 +148,32 @@ public class ImportBUS implements ActionListener {
             return;
         }
 
-        int rowCount = importTempTable.getRowCount();
-        quantity = Integer.parseInt(quantityStr);
+        productName = (String) jPanelImport.getComboBoxProductName().getSelectedItem();
         importPrice = Double.valueOf(importPriceStr);
         productPrice = Double.valueOf(productPriceStr);
-        for (int i = 0; i < rowCount; i++) {
+        quantity = Integer.parseInt(quantityStr);
+        
+        boolean productExists = false;
+        for (int i = 0; i < importTempTable.getRowCount(); i++) {
             if (importTempTable.getValueAt(i, 1).equals(productName)) {
-                importTempTable.removeRow(i);
+                productExists = true;
+                
+                int totalQuantity = quantity + (int) importTempTable.getValueAt(i, 3);
+                double price = (double) importTempTable.getValueAt(i, 2);
+                
+                importTempTable.setValueAt(importPrice, i, 2);
+                importTempTable.setValueAt(totalQuantity, i, 3);
+                importTempTable.setValueAt(price * totalQuantity, i, 5);
+                jPanelImport.getTextFieldTotalCost().setText(getTotalCost() + "");
+                
                 break;
             }
         }
-        SetValueTable();
 
+        if (!productExists) {
+            SetValueTable();
+        }
+        
         jPanelImport.getTextFieldProductPrice().setEnabled(false);
         clearInfo();
     }
@@ -184,7 +233,7 @@ public class ImportBUS implements ActionListener {
         jPanelImport.getTextFieldTotalCost().setText(getTotalCost() + "");
 
         clearInfo();
-        setEnabled(true);
+//        setEnabled(true);
     }
 
     private void confirm() {

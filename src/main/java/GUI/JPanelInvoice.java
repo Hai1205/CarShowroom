@@ -222,6 +222,11 @@ public class JPanelInvoice extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        jTableInvoice.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTableInvoiceKeyPressed(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTableInvoice);
 
         scrollPane1.add(jScrollPane3);
@@ -280,6 +285,29 @@ public class JPanelInvoice extends javax.swing.JPanel {
     private void textFieldSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldSearchActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textFieldSearchActionPerformed
+
+    private void jTableInvoiceKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableInvoiceKeyPressed
+        selectedRowIndex = jTableInvoice.getSelectedRow();
+        int rowCount = jTableInvoice.getRowCount();
+
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_UP -> {
+                if (selectedRowIndex > 0) {
+                    jTableInvoice.changeSelection(selectedRowIndex--, 0, false, false);
+                } else {
+                }
+            }
+            case KeyEvent.VK_DOWN -> {
+                if (selectedRowIndex == rowCount - 1) {
+                } else {
+                    jTableInvoice.changeSelection(selectedRowIndex++, 0, false, false);
+                }
+            }
+        }
+        invoiceID = jTableInvoice.getValueAt(selectedRowIndex, 0).toString();
+        listDiv.setList(invoiceID);
+        showListInvoiceDetail(listDiv.getList());
+    }//GEN-LAST:event_jTableInvoiceKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

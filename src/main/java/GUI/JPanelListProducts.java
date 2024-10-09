@@ -8,16 +8,34 @@ import BUS.CreateImage;
 import BUS.*;
 import DTO.*;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import javax.swing.*;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
 public class JPanelListProducts extends javax.swing.JPanel {
 
-    public String customerID, employeeID, idProduct;
-    public ArrayList<OrderDTO> orders = new ArrayList<>();
+    private String customerID, employeeID, idProduct;
+
+    public String getCustomerID() {
+        return customerID;
+    }
+
+    public String getEmployeeID() {
+        return employeeID;
+    }
+
+    public String getIdProduct() {
+        return idProduct;
+    }
+
+    public ArrayList<OrderDTO> getOrders() {
+        return orders;
+    }
+    private ArrayList<OrderDTO> orders = new ArrayList<>();
     private ListProduct listPd;
     private ProductBUS pdBUS;
+    private int selectedRowIndex;
 
     public JPanelListProducts() {
         initComponents();
@@ -343,6 +361,11 @@ public class JPanelListProducts extends javax.swing.JPanel {
                 JTableProductMouseClicked(evt);
             }
         });
+        JTableProduct.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                JTableProductKeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(JTableProduct);
         if (JTableProduct.getColumnModel().getColumnCount() > 0) {
             JTableProduct.getColumnModel().getColumn(0).setPreferredWidth(50);
@@ -427,12 +450,16 @@ public class JPanelListProducts extends javax.swing.JPanel {
     }//GEN-LAST:event_buttonCancelActionPerformed
 
     private void JTableProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTableProductMouseClicked
-        int row = JTableProduct.getSelectedRow();
+        selectedRowIndex = JTableProduct.getSelectedRow();
+        showInfo();
+    }//GEN-LAST:event_JTableProductMouseClicked
+
+    private void showInfo(){
         DefaultTableModel listProductTable = (DefaultTableModel) JTableProduct.getModel();
         listPd = new ListProduct();
         ListDetailProduct listDpd = new ListDetailProduct();
-        ProductDTO pdDTO = listPd.searchProductByProductID(listProductTable.getValueAt(row, 0).toString());
-        DetailProductDTO dpdDTO = listDpd.searchDetailProductByProductID((String) listProductTable.getValueAt(row, 0));
+        ProductDTO pdDTO = listPd.searchProductByProductID(listProductTable.getValueAt(selectedRowIndex, 0).toString());
+        DetailProductDTO dpdDTO = listDpd.searchDetailProductByProductID((String) listProductTable.getValueAt(selectedRowIndex, 0));
         idProduct = pdDTO.getProductID();
         labelProductId.setText(idProduct);
         labelProductName.setText(pdDTO.getProductName());
@@ -451,8 +478,8 @@ public class JPanelListProducts extends javax.swing.JPanel {
         ImageIcon resizedIcon = new ImageIcon(resizedImg);
         labelProductPicture.setIcon(resizedIcon);
         labelProductQuantity.setText(pdDTO.getQuantity() + "");
-    }//GEN-LAST:event_JTableProductMouseClicked
-
+    }
+    
     private void buttonConfirmMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonConfirmMouseClicked
 
     }//GEN-LAST:event_buttonConfirmMouseClicked
@@ -476,6 +503,27 @@ public class JPanelListProducts extends javax.swing.JPanel {
     private void buttonRefeshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRefeshActionPerformed
 
     }//GEN-LAST:event_buttonRefeshActionPerformed
+
+    private void JTableProductKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_JTableProductKeyPressed
+        selectedRowIndex = JTableProduct.getSelectedRow();
+        int rowCount = JTableProduct.getRowCount();
+
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_UP -> {
+                if (selectedRowIndex > 0) {
+                    JTableProduct.changeSelection(selectedRowIndex--, 0, false, false);
+                } else {
+                }
+            }
+            case KeyEvent.VK_DOWN -> {
+                if (selectedRowIndex == rowCount - 1) {
+                } else {
+                    JTableProduct.changeSelection(selectedRowIndex++, 0, false, false);
+                }
+            }
+        }
+        showInfo();
+    }//GEN-LAST:event_JTableProductKeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable JTableProduct;

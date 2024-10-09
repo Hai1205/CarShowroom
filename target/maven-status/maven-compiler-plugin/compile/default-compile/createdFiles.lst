@@ -1,5 +1,6 @@
 GUI\JPanelEmployee$19.class
 GUI\JPanelCustomer$5.class
+GUI\JPanelProduct$17.class
 GUI\JPanelDiscount$15.class
 GUI\JPanelSupplier$2.class
 GUI\JPanelMenu$3.class
@@ -29,6 +30,8 @@ GUI\JPanelImport$12.class
 GUI\JPanelDiscount$7.class
 GUI\JPanelSupplier$8.class
 GUI\JPanelOrder$16.class
+GUI\JPanelDiscount$16.class
+GUI\JPanelEmployee$21.class
 GUI\JPanelProduct$6.class
 GUI\JPanelProduct$11.class
 GUI\JPanelOrder$3.class
@@ -88,6 +91,7 @@ GUI\JPanelEmployee$13.class
 DTO\CustomerDTO.class
 GUI\JPanelMenu$11.class
 DAL\ProductDAL.class
+GUI\JPanelCustomer$14.class
 GUI\JPanelImport$8.class
 DTO\TempImportDTO.class
 DTO\ListDetailImport.class
@@ -113,6 +117,7 @@ GUI\JPanelCustomer$8.class
 BUS\ProductBUS.class
 GUI\JPanelListProducts.class
 GUI\JPanelMenu$18.class
+GUI\JPanelStatistics$2.class
 DAL\DetailProductDAL.class
 GUI\JPanelProduct$14.class
 DTO\ListDiscount.class
@@ -129,6 +134,7 @@ GUI\JPanelProduct$2.class
 GUI\JPanelMenu$20.class
 DTO\ListEmployee.class
 GUI\JPanelImport$4.class
+GUI\JPanelOrder$22.class
 GUI\JPanelInvoice$4.class
 GUI\JPanelCustomer$7.class
 GUI\JPanelEmployee$17.class
@@ -143,12 +149,15 @@ GUI\JPanelEmployee$11.class
 DTO\ListInvoice.class
 GUI\JPanelProduct$7.class
 GUI\JPanelMenu$6.class
+GUI\JPanelInvoice$5.class
 GUI\JPanelOrder$2.class
 GUI\JPanelCustomer$1.class
 GUI\JPanelCustomer$11.class
 GUI\JPanelOrder$21.class
 GUI\JPanelEmployee$10.class
+GUI\JPanelStatistics$1.class
 DTO\ListDetailInvoice.class
+GUI\JPanelImport$13.class
 GUI\JPanelSupplier$10.class
 GUI\JPanelSupplier$9.class
 GUI\JPanelListProducts$3.class
@@ -172,7 +181,9 @@ GUI\JPanelDiscount$5.class
 BUS\CreateImage.class
 DAL\DiscountDAL.class
 GUI\JPanelEmployee$4.class
+GUI\JPanelListProducts$10.class
 GUI\JPanelMenu$1.class
+BUS\ImportBUS$2.class
 GUI\JPanelSupplier$11.class
 GUI\LoginGUI$1.class
 DAL\DetailImportDAL.class
@@ -195,6 +206,7 @@ DAL\DetailInvoiceDAL.class
 DTO\DetailInvoiceDTO.class
 GUI\JPanelSupplier$5.class
 GUI\JPanelOrder$18.class
+GUI\JPanelSupplier$13.class
 GUI\JPanelDiscount$3.class
 GUI\JPanelEmployee$6.class
 DAL\CustomerDAL.class

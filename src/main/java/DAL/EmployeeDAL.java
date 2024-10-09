@@ -105,7 +105,7 @@ public class EmployeeDAL {
                 } else if (statusSearch.equals("Đã nghỉ việc")) {
                     query += " status = 0 AND";
                 }
-                query += " (employeeID LIKE ? OR username LIKE ? OR password LIKE ? OR CONCAT(firstname, ' ', lastname) LIKE ? OR DOB LIKE ? OR salary LIKE ?)";
+                query += " (employeeID LIKE ? OR username LIKE ? OR CONCAT(firstname, ' ', lastname) LIKE ? OR DOB LIKE ? OR salary LIKE ?)";
                 pstmt = connection.prepareStatement(query);
                 String searchValue = "%" + info + "%";
                 pstmt.setString(1, searchValue);
@@ -113,7 +113,6 @@ public class EmployeeDAL {
                 pstmt.setString(3, searchValue);
                 pstmt.setString(4, searchValue);
                 pstmt.setString(5, searchValue);
-                pstmt.setString(6, searchValue);
             } else {
                 query = "SELECT * FROM employee";
                 if (statusSearch.equals("Còn làm việc")) {

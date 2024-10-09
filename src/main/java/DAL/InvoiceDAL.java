@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
@@ -189,24 +191,35 @@ public class InvoiceDAL {
         return result;
     }
 
-    public static JFreeChart createImvoiceChart() {
+    public static JFreeChart createInvoiceChart() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         try {
             Connection connection = Database.getConnection();
             String query = """
-                       SELECT SUBSTRING(date, 7, 4) AS year, 
-                              CAST(SUM(totalCost) AS UNSIGNED) AS total_invoice_cost
-                       FROM carshowroom.Invoice
-                       GROUP BY SUBSTRING(date, 7, 4)
-                       ORDER BY year ASC
-                       LIMIT 5""";
+                   SELECT SUBSTRING(date, 7, 4) AS year, 
+                          CAST(SUM(totalCost) AS UNSIGNED) AS total_invoice_cost
+                   FROM carshowroom.Invoice
+                   GROUP BY SUBSTRING(date, 7, 4)
+                   ORDER BY year DESC
+                   LIMIT 5""";
 
             try (Statement statement = connection.createStatement(); ResultSet rs = statement.executeQuery(query)) {
+                // Tạo list để lưu trữ dữ liệu
+                List<String[]> dataList = new ArrayList<>();
 
+                // Lưu trữ dữ liệu vào list
                 while (rs.next()) {
                     String year = rs.getString("year");
                     int totalInvoiceCost = rs.getInt("total_invoice_cost");
-                    dataset.addValue(totalInvoiceCost, "Doanh số", year);
+                    dataList.add(new String[]{year, String.valueOf(totalInvoiceCost)});
+                }
+
+                // Đảo ngược thứ tự list
+                Collections.reverse(dataList);
+
+                // Thêm dữ liệu từ list đã đảo ngược vào dataset
+                for (String[] data : dataList) {
+                    dataset.addValue(Integer.parseInt(data[1]), "Doanh số", data[0]);
                 }
             }
         } catch (SQLException e) {

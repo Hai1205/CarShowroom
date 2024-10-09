@@ -102,14 +102,14 @@ public class ProductBUS implements ActionListener {
     }
 
     private void confirm() {
-        if (jPanelListProducts.idProduct == null) {
+        if (jPanelListProducts.getIdProduct() == null) {
             JOptionPane.showMessageDialog(jPanelListProducts,
                     "Hãy chắc chắn bạn dã chọn sản phẩm trước khi xác nhận",
                     "Thông báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        JPanelOrder order = new JPanelOrder(jPanelListProducts.customerID, this.employeeID, jPanelListProducts.idProduct, jPanelListProducts.orders);
+        JPanelOrder order = new JPanelOrder(jPanelListProducts.getCustomerID(), this.employeeID, jPanelListProducts.getIdProduct(), jPanelListProducts.getOrders());
         MainFrameGUI main = (MainFrameGUI) SwingUtilities.getWindowAncestor(jPanelListProducts);
         main.getjPanelMain().removeAll();
         main.getjPanelMain().add(order).setVisible(true);
@@ -117,7 +117,7 @@ public class ProductBUS implements ActionListener {
     }
 
     private void cancel() {
-        JPanelOrder order = new JPanelOrder(jPanelListProducts.customerID, jPanelListProducts.employeeID, null, jPanelListProducts.orders);
+        JPanelOrder order = new JPanelOrder(jPanelListProducts.getCustomerID(), jPanelListProducts.getEmployeeID(), null, jPanelListProducts.getOrders());
         MainFrameGUI main = (MainFrameGUI) SwingUtilities.getWindowAncestor(jPanelListProducts);
         main.getjPanelMain().removeAll();
         main.getjPanelMain().add(order).setVisible(true);

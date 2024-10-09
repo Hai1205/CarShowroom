@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
@@ -176,18 +178,29 @@ public class ImportDAL {
         try {
             Connection connection = Database.getConnection();
             String query = """
-                       SELECT SUBSTRING(date, 7, 4) AS year, CAST(SUM(totalCost) AS UNSIGNED) AS total_import_cost
-                       FROM Import
-                       GROUP BY SUBSTRING(date, 7, 4)
-                       ORDER BY year ASC
-                       LIMIT 5""";
+                   SELECT SUBSTRING(date, 7, 4) AS year, CAST(SUM(totalCost) AS UNSIGNED) AS total_import_cost
+                   FROM Import
+                   GROUP BY SUBSTRING(date, 7, 4)
+                   ORDER BY year DESC
+                   LIMIT 5""";
 
             try (Statement statement = connection.createStatement(); ResultSet rs = statement.executeQuery(query)) {
+                // Tạo list để lưu trữ dữ liệu
+                List<String[]> dataList = new ArrayList<>();
 
+                // Lưu trữ dữ liệu vào list
                 while (rs.next()) {
                     String year = rs.getString("year");
                     int totalImportCost = rs.getInt("total_import_cost");
-                    dataset.addValue(totalImportCost, "Chi phí nhập", year);
+                    dataList.add(new String[]{year, String.valueOf(totalImportCost)});
+                }
+
+                // Đảo ngược thứ tự list
+                Collections.reverse(dataList);
+
+                // Thêm dữ liệu từ list đã đảo ngược vào dataset
+                for (String[] data : dataList) {
+                    dataset.addValue(Integer.parseInt(data[1]), "Chi phí nhập", data[0]);
                 }
             }
         } catch (SQLException e) {

@@ -317,6 +317,11 @@ public class JPanelImport extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        jTableImport.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTableImportKeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTableImport);
 
         scrollPane1.add(jScrollPane2);
@@ -390,6 +395,7 @@ public class JPanelImport extends javax.swing.JPanel {
 
         jLabel7.setText("Tổng tiền");
 
+        textFieldTotalCost.setText("0.0");
         textFieldTotalCost.setEnabled(false);
 
         jLabel3.setText("Triệu VND");
@@ -663,6 +669,7 @@ public class JPanelImport extends javax.swing.JPanel {
 
     private void textFieldImportPriceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldImportPriceKeyReleased
         String importPriceStr = textFieldImportPrice.getText().trim();
+        String productPriceStr = textFieldProductPrice.getText().trim();
 
         if (importPriceStr.isEmpty()) {
             return;
@@ -671,6 +678,12 @@ public class JPanelImport extends javax.swing.JPanel {
         if (!Tool.isDouble(importPriceStr)) {
             flat = true;
             JOptionPane.showMessageDialog(this, "Giá nhập vào của sản phẩm không hợp lệ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            textFieldImportPrice.setText("");
+            textFieldImportPrice.requestFocus();
+            flat = false;
+        }else if(Integer.parseInt(importPriceStr) > Integer.parseInt(productPriceStr)){
+            flat = true;
+            JOptionPane.showMessageDialog(this, "Giá nhập vào phải thấp hơn hoặc bằng giá bán.", "Thông báo", JOptionPane.WARNING_MESSAGE);
             textFieldImportPrice.setText("");
             textFieldImportPrice.requestFocus();
             flat = false;
@@ -695,6 +708,7 @@ public class JPanelImport extends javax.swing.JPanel {
 
     private void textFieldProductPriceKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldProductPriceKeyReleased
         String productPriceStr = textFieldProductPrice.getText().trim();
+        String importPriceStr = textFieldImportPrice.getText().trim();
 
         if (productPriceStr.isEmpty()) {
             return;
@@ -706,12 +720,40 @@ public class JPanelImport extends javax.swing.JPanel {
             textFieldProductPrice.setText("");
             textFieldProductPrice.requestFocus();
             flat = false;
+        }else if(Integer.parseInt(importPriceStr) > Integer.parseInt(productPriceStr)){
+            flat = true;
+            JOptionPane.showMessageDialog(this, "Giá bán phải lớn hơn hoặc bằng giá nhập vào.", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            textFieldProductPrice.setText("");
+            textFieldProductPrice.requestFocus();
+            flat = false;
         }
     }//GEN-LAST:event_textFieldProductPriceKeyReleased
 
     private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDeleteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_buttonDeleteActionPerformed
+
+    private void jTableImportKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableImportKeyPressed
+        int selectedRowIndex = jTableImport.getSelectedRow();
+        int rowCount = jTableImport.getRowCount();
+
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_UP -> {
+                if (selectedRowIndex > 0) {
+                    jTableImport.changeSelection(selectedRowIndex--, 0, false, false);
+                } else {
+                }
+            }
+            case KeyEvent.VK_DOWN -> {
+                if (selectedRowIndex == rowCount - 1) {
+                } else {
+                    jTableImport.changeSelection(selectedRowIndex++, 0, false, false);
+                }
+            }
+        }
+        
+        showListDetailImport(listDip.getListTemp(jTableImport.getValueAt(selectedRowIndex, 0).toString()));
+    }//GEN-LAST:event_jTableImportKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

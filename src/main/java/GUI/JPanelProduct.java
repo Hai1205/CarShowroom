@@ -631,6 +631,11 @@ public class JPanelProduct extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        jTableProduct.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTableProductKeyPressed(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTableProduct);
 
         scrollPane1.add(jScrollPane3);
@@ -807,6 +812,10 @@ public class JPanelProduct extends javax.swing.JPanel {
     private void textFieldMFGFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldMFGFocusLost
         String MFG = textFieldMFG.getText().trim();
 
+        if (MFG.isEmpty()) {
+            return;
+        }
+
         if (!Tool.checkMFG(MFG)) {
             flat = true;
             JOptionPane.showMessageDialog(this, "Năm sản xuất không hợp lệ.", "Thông báo", JOptionPane.WARNING_MESSAGE);
@@ -815,6 +824,28 @@ public class JPanelProduct extends javax.swing.JPanel {
             flat = false;
         }
     }//GEN-LAST:event_textFieldMFGFocusLost
+
+    private void jTableProductKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableProductKeyPressed
+        selectedRowIndex = jTableProduct.getSelectedRow();
+        int rowCount = jTableProduct.getRowCount();
+
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_UP -> {
+                if (selectedRowIndex > 0) {
+                    jTableProduct.changeSelection(selectedRowIndex--, 0, false, false);
+                } else {
+                }
+            }
+            case KeyEvent.VK_DOWN -> {
+                if (selectedRowIndex == rowCount - 1) {
+                } else {
+                    jTableProduct.changeSelection(selectedRowIndex++, 0, false, false);
+                }
+            }
+        }
+        productID = jTableProduct.getValueAt(selectedRowIndex, 0).toString();
+        showInfor(productID);
+    }//GEN-LAST:event_jTableProductKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

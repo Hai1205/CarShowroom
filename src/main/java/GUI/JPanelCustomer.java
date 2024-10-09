@@ -117,14 +117,18 @@ public class JPanelCustomer extends javax.swing.JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 selectedRowIndex = jTableCustomer.getSelectedRow();
-                ctmBUS.setEnabled(false);
-                textFieldCustomerID.setText(jTableCustomer.getValueAt(selectedRowIndex, 0).toString());
-                textFieldCustomerFirstname.setText(jTableCustomer.getValueAt(selectedRowIndex, 1).toString());
-                textFieldCustomerLastname.setText(jTableCustomer.getValueAt(selectedRowIndex, 2).toString());
-                textFieldCustomerAddress.setText(jTableCustomer.getValueAt(selectedRowIndex, 3).toString());
-                textFieldCustomerPhone.setText(jTableCustomer.getValueAt(selectedRowIndex, 4).toString());
+                showInfo();
             }
         });
+    }
+
+    private void showInfo() {
+        ctmBUS.setEnabled(false);
+        textFieldCustomerID.setText(jTableCustomer.getValueAt(selectedRowIndex, 0).toString());
+        textFieldCustomerFirstname.setText(jTableCustomer.getValueAt(selectedRowIndex, 1).toString());
+        textFieldCustomerLastname.setText(jTableCustomer.getValueAt(selectedRowIndex, 2).toString());
+        textFieldCustomerAddress.setText(jTableCustomer.getValueAt(selectedRowIndex, 3).toString());
+        textFieldCustomerPhone.setText(jTableCustomer.getValueAt(selectedRowIndex, 4).toString());
     }
 
     public void showList(ArrayList<CustomerDTO> list) {
@@ -368,6 +372,11 @@ public class JPanelCustomer extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        jTableCustomer.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTableCustomerKeyPressed(evt);
+            }
+        });
         jScrollPane6.setViewportView(jTableCustomer);
 
         scrollPane2.add(jScrollPane6);
@@ -493,7 +502,7 @@ public class JPanelCustomer extends javax.swing.JPanel {
             return;
         }
 
-        if (address.length() > 200) {
+        if (!Tool.isAdress(address)) {
             flat = true;
             JOptionPane.showMessageDialog(this, "Địa chỉ của khách hàng không hợp lệ");
             textFieldCustomerAddress.setText("");
@@ -508,6 +517,10 @@ public class JPanelCustomer extends javax.swing.JPanel {
 
     private void textFieldCustomerPhoneFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textFieldCustomerPhoneFocusLost
         String phone = textFieldCustomerPhone.getText().trim();
+
+        if (phone.isEmpty()) {
+            return;
+        }
 
         if (!Tool.checkPhone(phone)) {
             flat = true;
@@ -526,6 +539,27 @@ public class JPanelCustomer extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_textFieldCustomerPhoneFocusLost
+
+    private void jTableCustomerKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableCustomerKeyPressed
+        selectedRowIndex = jTableCustomer.getSelectedRow();
+        int rowCount = jTableCustomer.getRowCount();
+
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_UP -> {
+                if (selectedRowIndex > 0) {
+                    jTableCustomer.changeSelection(selectedRowIndex--, 0, false, false);
+                } else {
+                }
+            }
+            case KeyEvent.VK_DOWN -> {
+                if (selectedRowIndex == rowCount - 1) {
+                } else {
+                    jTableCustomer.changeSelection(selectedRowIndex++, 0, false, false);
+                }
+            }
+        }
+        showInfo();
+    }//GEN-LAST:event_jTableCustomerKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

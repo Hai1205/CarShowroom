@@ -278,6 +278,9 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTableInvoiceKeyPressed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

@@ -118,15 +118,19 @@ public class JPanelDiscount extends javax.swing.JPanel {
             public void mouseClicked(MouseEvent e) {
                 selectedRowIndex = jTableDiscount.getSelectedRow();
                 if (selectedRowIndex != -1) {
-                    dcBUS.setEnabled(false);
-                    textFieldDiscountID.setText(jTableDiscount.getValueAt(selectedRowIndex, 0).toString());
-                    textFieldDiscountName.setText(jTableDiscount.getValueAt(selectedRowIndex, 1).toString());
-                    textFieldContent.setText(jTableDiscount.getValueAt(selectedRowIndex, 2).toString());
-                    textFieldDiscountStartDay.setText(jTableDiscount.getValueAt(selectedRowIndex, 3).toString());
-                    textFieldDiscountEndDay.setText(jTableDiscount.getValueAt(selectedRowIndex, 4).toString());
+                    showInfo();
                 }
             }
         });
+    }
+
+    private void showInfo() {
+        dcBUS.setEnabled(false);
+        textFieldDiscountID.setText(jTableDiscount.getValueAt(selectedRowIndex, 0).toString());
+        textFieldDiscountName.setText(jTableDiscount.getValueAt(selectedRowIndex, 1).toString());
+        textFieldContent.setText(jTableDiscount.getValueAt(selectedRowIndex, 2).toString());
+        textFieldDiscountStartDay.setText(jTableDiscount.getValueAt(selectedRowIndex, 3).toString());
+        textFieldDiscountEndDay.setText(jTableDiscount.getValueAt(selectedRowIndex, 4).toString());
     }
 
     public void showList(ArrayList<DiscountDTO> list) {
@@ -382,6 +386,11 @@ public class JPanelDiscount extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        jTableDiscount.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTableDiscountKeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTableDiscount);
 
         scrollPane2.add(jScrollPane2);
@@ -513,6 +522,12 @@ public class JPanelDiscount extends javax.swing.JPanel {
             flat = false;
             textFieldDiscountStartDay.setText("");
             textFieldDiscountStartDay.requestFocus();
+        } else if (!Tool.isCurrentDate(begin)) {
+            flat = true;
+            JOptionPane.showMessageDialog(this, "Ngày bắt đầu phải là ngày hiện tại hoặc trong tương lai", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            flat = false;
+            textFieldDiscountStartDay.setText("");
+            textFieldDiscountStartDay.requestFocus();
         }
     }//GEN-LAST:event_textFieldDiscountStartDayFocusLost
 
@@ -564,6 +579,27 @@ public class JPanelDiscount extends javax.swing.JPanel {
             textFieldContent.requestFocus();
         }
     }//GEN-LAST:event_textFieldContentFocusLost
+
+    private void jTableDiscountKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableDiscountKeyPressed
+        selectedRowIndex = jTableDiscount.getSelectedRow();
+        int rowCount = jTableDiscount.getRowCount();
+
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_UP -> {
+                if (selectedRowIndex > 0) {
+                    jTableDiscount.changeSelection(selectedRowIndex--, 0, false, false);
+                } else {
+                }
+            }
+            case KeyEvent.VK_DOWN -> {
+                if (selectedRowIndex == rowCount - 1) {
+                } else {
+                    jTableDiscount.changeSelection(selectedRowIndex++, 0, false, false);
+                }
+            }
+        }
+        showInfo();
+    }//GEN-LAST:event_jTableDiscountKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

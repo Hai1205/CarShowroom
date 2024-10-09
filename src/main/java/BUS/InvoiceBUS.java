@@ -43,6 +43,6 @@ public class InvoiceBUS implements ActionListener {
     }
 
     public JFreeChart createChart(){
-        return InvoiceDAL.createImvoiceChart();
+        return InvoiceDAL.createInvoiceChart();
     }
 }

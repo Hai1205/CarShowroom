@@ -63,6 +63,7 @@ public class DiscountBUS implements ActionListener {
 
     public void setEnabled(boolean bool) {
         jPanelDiscount.getButtonAdd().setEnabled(bool);
+        jPanelDiscount.getTextFieldDiscountStartDay().setEnabled(bool);
     }
 
     private boolean valid() {
@@ -123,6 +124,7 @@ public class DiscountBUS implements ActionListener {
         listDc.fix(selectedRow, discountID, discountName, Double.parseDouble(percentDiscount), begin, end);
         DiscountDAL.setAllDiscounts(listDc.getList());
         jPanelDiscount.showList(listDc.getList());
+
         clear();
     }
 
