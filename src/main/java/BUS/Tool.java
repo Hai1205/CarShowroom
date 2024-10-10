@@ -101,7 +101,7 @@ public class Tool {
                 age--; // Nếu chưa qua sinh nhật thì giảm tuổi đi 1
             }
 
-            return age >= 18 && age <= 55; // Trả về true nếu đủ 18 tuổi, ngược lại là false
+            return (age >= 18 && age <= 55); // Trả về true nếu đủ 18 tuổi, ngược lại là false
         } catch (ParseException e) {
             return false;
         }
