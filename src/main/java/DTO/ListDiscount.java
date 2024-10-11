@@ -26,7 +26,7 @@ public class ListDiscount {
     
     public boolean checkNameExist(String name){
         for(DiscountDTO dcDTO : list) {
-              if(dcDTO.getDiscountName().equals(name)){
+              if(dcDTO.getDiscountName().equalsIgnoreCase(name)){
                 return false;
               }
         }

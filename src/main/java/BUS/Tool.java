@@ -52,32 +52,31 @@ public class Tool {
 
         return true; // Ngày hợp lệ
     }
-    
-    public static boolean isCurrentDate(String date) {
+
+    public static boolean isStartDate(String date) {
         if (!isValidDate(date)) {
             return false; // Nếu ngày không hợp lệ thì trả về false
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setLenient(false); // Không cho phép những ngày không hợp lệ như 31/02/2023
+
         try {
             // Chuyển đổi chuỗi ngày nhập vào thành đối tượng Date
             Date inputDate = sdf.parse(date);
 
             // Lấy ngày hiện tại
             Date currentDate = new Date();
-            
-            // Format lại ngày hiện tại để so sánh theo định dạng dd/MM/yyyy
-            String formattedCurrentDate = sdf.format(currentDate);
 
-            // So sánh ngày nhập với ngày hiện tại
-            return sdf.format(inputDate).equals(formattedCurrentDate);
+            // So sánh ngày nhập với ngày hiện tại hoặc tương lai
+            return !inputDate.before(sdf.parse(sdf.format(currentDate))); // Nếu inputDate >= currentDate
 
         } catch (ParseException e) {
             e.printStackTrace();
             return false;
         }
     }
-    
+
     public static boolean isEligibleToWork(String birthDate) {
         if (!isValidDate(birthDate)) {
             return false; // Nếu ngày sinh không hợp lệ thì trả về false
@@ -95,9 +94,9 @@ public class Tool {
             int age = currentCal.get(Calendar.YEAR) - birthCal.get(Calendar.YEAR);
 
             // Kiểm tra xem đã qua ngày sinh nhật của năm hiện tại chưa
-            if (currentCal.get(Calendar.MONTH) < birthCal.get(Calendar.MONTH) ||
-                (currentCal.get(Calendar.MONTH) == birthCal.get(Calendar.MONTH) && 
-                 currentCal.get(Calendar.DAY_OF_MONTH) < birthCal.get(Calendar.DAY_OF_MONTH))) {
+            if (currentCal.get(Calendar.MONTH) < birthCal.get(Calendar.MONTH)
+                    || (currentCal.get(Calendar.MONTH) == birthCal.get(Calendar.MONTH)
+                    && currentCal.get(Calendar.DAY_OF_MONTH) < birthCal.get(Calendar.DAY_OF_MONTH))) {
                 age--; // Nếu chưa qua sinh nhật thì giảm tuổi đi 1
             }
 
@@ -148,7 +147,7 @@ public class Tool {
         if (password.contains(" ")) {
             return false;
         }
-        
+
         if (password.length() > 200) {
             return false;
         }
@@ -164,7 +163,7 @@ public class Tool {
         if (username.length() > 200) {
             return false;
         }
-        
+
         if (username.contains(" ")) {
             return false;
         }
@@ -178,8 +177,8 @@ public class Tool {
     public static boolean checkPhone(String phone) {
         if (phone.contains(" ")) {
             return false;
-        } 
-        
+        }
+
         String pattern = "^(0)[1-9]\\d{8}$";
         Pattern regex = Pattern.compile(pattern);
         Matcher matcher = regex.matcher(phone);
@@ -201,7 +200,7 @@ public class Tool {
         Matcher m = p.matcher(name);
         return m.matches();
     }
-    
+
     public static boolean isAdress(String name) {
         if (name.length() > 200 || name.isEmpty()) {
             return false;
@@ -210,7 +209,7 @@ public class Tool {
         String pattern = "^(?! )[a-zA-Z0-9]+( [a-zA-Z0-9]+)*(?! )$";
         Pattern p = Pattern.compile(pattern);
         Matcher m = p.matcher(name);
-        
+
         return m.matches(); // Trả về true nếu địa chỉ hợp lệ, ngược lại false
     }
 

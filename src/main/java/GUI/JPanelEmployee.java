@@ -724,9 +724,9 @@ public class JPanelEmployee extends javax.swing.JPanel {
             textFieldEmployeeDOB.setText("");
             textFieldEmployeeDOB.requestFocus();
             flat = false;
-            flat = true;
         } else if (!Tool.isEligibleToWork(DOB)) {
-            JOptionPane.showMessageDialog(this, "Tuổi của nhân viên phải trên 18", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            flat=true;
+            JOptionPane.showMessageDialog(this, "Tuổi của nhân viên không hợp lệ", "Thông báo", JOptionPane.WARNING_MESSAGE);
             textFieldEmployeeDOB.setText("");
             textFieldEmployeeDOB.requestFocus();
             flat = false;

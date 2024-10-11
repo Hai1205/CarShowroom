@@ -491,7 +491,7 @@ public class JPanelDiscount extends javax.swing.JPanel {
             textFieldDiscountName.setText("");
         } else if (!listDc.checkNameExist(discountName)) {
             flat = true;
-            JOptionPane.showMessageDialog(this, "Tên chương trình giảm giá này đã được sử dụng.", "Thông báo",
+            JOptionPane.showMessageDialog(this, "Tên khuyến mãi này đã được sử dụng.", "Thông báo",
                     JOptionPane.WARNING_MESSAGE);
             flat = false;
             textFieldDiscountName.requestFocus();
@@ -522,7 +522,7 @@ public class JPanelDiscount extends javax.swing.JPanel {
             flat = false;
             textFieldDiscountStartDay.setText("");
             textFieldDiscountStartDay.requestFocus();
-        } else if (!Tool.isCurrentDate(begin)) {
+        } else if (!Tool.isStartDate(begin)) {
             flat = true;
             JOptionPane.showMessageDialog(this, "Ngày bắt đầu phải là ngày hiện tại hoặc trong tương lai", "Thông báo", JOptionPane.WARNING_MESSAGE);
             flat = false;
