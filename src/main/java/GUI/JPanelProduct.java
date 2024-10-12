@@ -744,7 +744,7 @@ public class JPanelProduct extends javax.swing.JPanel {
     private void textFiedProductNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFiedProductNameKeyReleased
         String productName = textFiedProductName.getText().trim();
 
-        if (!Tool.isAdress(productName)) {
+        if (!Tool.isAdress(productName) || productName.length() > 50) {
             JOptionPane.showMessageDialog(this, "Tên xe không hợp lệ");
             textFiedProductName.setText("");
         } else if (!listPd.checkNameExist(productName)) {
@@ -776,7 +776,7 @@ public class JPanelProduct extends javax.swing.JPanel {
     private void txtFieldSeriesKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFieldSeriesKeyReleased
         String series = txtFieldSeries.getText().trim();
 
-        if (!Tool.isName(series)) {
+        if (!Tool.isName(series) || series.length()> 15) {
             flat = true;
             JOptionPane.showMessageDialog(this, "Dòng xe không hợp lệ");
             txtFieldSeries.setText("");

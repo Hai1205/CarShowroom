@@ -6,7 +6,6 @@ package GUI;
 
 /**
  *
- * @author voota
 // */
 public class Main {
 

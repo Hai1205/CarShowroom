@@ -9,18 +9,18 @@ USE CarShowroom;
 -- Tạo bảng Supplier
 CREATE TABLE Supplier (
     supplierID VARCHAR(15) PRIMARY KEY,
-    supplierName VARCHAR(255),
-    phone VARCHAR(100),
-    address VARCHAR(255)
+    supplierName VARCHAR(50),
+    phone VARCHAR(10),
+    address VARCHAR(100)
 );
 
 -- Tạo bảng Employee
 CREATE TABLE Employee (
     employeeID VARCHAR(15) PRIMARY KEY,
-    username VARCHAR(255),
-    password VARCHAR(255),
-    firstname VARCHAR(255),
-    lastname VARCHAR(255),
+    username VARCHAR(50),
+    password VARCHAR(50),
+    firstname VARCHAR(50),
+    lastname VARCHAR(50),
     DOB VARCHAR(10),
     salary FLOAT,
     status BOOLEAN
@@ -29,16 +29,16 @@ CREATE TABLE Employee (
 -- Tạo bảng Customer
 CREATE TABLE Customer (
     customerID VARCHAR(15) PRIMARY KEY,
-    firstname VARCHAR(255),
-    lastname VARCHAR(255),
-    address VARCHAR(255),
-    phone VARCHAR(20)
+    firstname VARCHAR(50),
+    lastname VARCHAR(50),
+    address VARCHAR(100),
+    phone VARCHAR(10)
 );
 
 -- Tạo bảng Discount
 CREATE TABLE Discount (
     discountID VARCHAR(15) PRIMARY KEY,
-    name VARCHAR(255),
+    name VARCHAR(50),
     percentDiscount FLOAT,
     begin VARCHAR(10),
     end VARCHAR(10)
@@ -48,9 +48,9 @@ CREATE TABLE Discount (
 CREATE TABLE Product (
     productID VARCHAR(15) PRIMARY KEY,
     supplierID VARCHAR(15),
-    productName VARCHAR(255),
-    supplierName VARCHAR(255),
-    type VARCHAR(255),
+    productName VARCHAR(50),
+    supplierName VARCHAR(50),
+    type VARCHAR(50),
     quantity INT,
     price FLOAT,
     status BOOLEAN

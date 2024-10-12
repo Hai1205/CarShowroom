@@ -148,7 +148,7 @@ public class Tool {
             return false;
         }
 
-        if (password.length() > 200) {
+        if (password.length() > 50) {
             return false;
         }
 
@@ -160,7 +160,7 @@ public class Tool {
     }
 
     public static boolean checkUserName(String username) {
-        if (username.length() > 200) {
+        if (username.length() > 50) {
             return false;
         }
 
@@ -179,6 +179,10 @@ public class Tool {
             return false;
         }
 
+        if (phone.length() > 10) {
+            return false;
+        }
+
         String pattern = "^(0)[1-9]\\d{8}$";
         Pattern regex = Pattern.compile(pattern);
         Matcher matcher = regex.matcher(phone);
@@ -191,7 +195,7 @@ public class Tool {
     }
 
     public static boolean isName(String name) {
-        if (name.length() > 200) {
+        if (name.length() > 50) {
             return false;
         }
 
@@ -202,7 +206,7 @@ public class Tool {
     }
 
     public static boolean isAdress(String name) {
-        if (name.length() > 200 || name.isEmpty()) {
+        if (name.length() > 100 || name.isEmpty()) {
             return false;
         }
 
