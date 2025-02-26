@@ -1,0 +1,1312 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ */
+package GUI;
+
+import DTO.*;
+import BUS.*;
+import java.awt.event.KeyEvent;
+import javax.swing.SwingUtilities;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author voota
+ */
+public class JPanelOrder extends javax.swing.JPanel {
+
+    private String customerID, employeeID, idProduct, idDiscount, nameProduct, typeProduct;
+    private int seatProduct, quantityProduct, selectedRowIndex;
+    private double discountPercent, priceProduct;
+    private ListInvoice listIv;
+    private ListDetailInvoice listDiv;
+    private ArrayList<OrderDTO> orders = new ArrayList<>();
+
+    public JPanelOrder(String employeeID) {
+        initComponents();
+        this.setSize(960, 700);
+        listIv = new ListInvoice();
+        listDiv = new ListDetailInvoice();
+        this.employeeID = employeeID;
+        editDisplay();
+        setCombobox();
+    }
+
+    public JPanelOrder(String customerID, String employeeID, String idProduct, ArrayList<OrderDTO> orders) {
+        this.employeeID = employeeID;
+        initComponents();
+        editDisplay();
+        this.setSize(960, 700);
+        this.idProduct = idProduct;
+        this.orders = orders;
+        SetValueProduct();
+        LoadInvoicetable();
+        getImageProduct();
+        setCombobox();
+        listIv = new ListInvoice();
+        listDiv = new ListDetailInvoice();
+        this.customerID = customerID;
+        for (int i = 0; i < comboboxCustomerID.getItemCount(); i++) {
+            Object item = comboboxCustomerID.getItemAt(i);
+            if (item != null && item.toString().equals(customerID)) {
+                comboboxCustomerID.setSelectedIndex(i);
+                break;
+            }
+        }
+    }
+
+    public javax.swing.JButton getButtonAdd() {
+        return buttonAdd;
+    }
+
+    public javax.swing.JButton getButtonCancel() {
+        return buttonCancel;
+    }
+
+    public javax.swing.JButton getButtonConfirm() {
+        return buttonConfirm;
+    }
+
+    public javax.swing.JButton getButtonDelete() {
+        return buttonDelete;
+    }
+
+    public javax.swing.JButton getButtonFix() {
+        return buttonFix;
+    }
+
+    public java.awt.Choice getChoiceProduct() {
+        return choiceProduct;
+    }
+
+    public javax.swing.JComboBox<String> getComboBoxDiscount() {
+        return comboBoxDiscount;
+    }
+
+    public javax.swing.JComboBox<String> getComboboxCustomerID() {
+        return comboboxCustomerID;
+    }
+
+    public javax.swing.JTable getJTableOrder() {
+        return jTableOrder;
+    }
+
+    public javax.swing.JTextField getTextFieldProductID() {
+        return textFieldProductID;
+    }
+
+    public javax.swing.JTextField getTextFieldProductName() {
+        return textFieldProductName;
+    }
+
+    public javax.swing.JTextField getTextFieldProductPrice() {
+        return textFieldProductPrice;
+    }
+
+    public javax.swing.JTextField getTextFieldQuantity() {
+        return textFieldQuantity;
+    }
+
+    public javax.swing.JTextField getTextFieldReducedPrice() {
+        return textFieldReducedPrice;
+    }
+
+    public javax.swing.JTextField getTextFieldTempCost() {
+        return textFieldTempCost;
+    }
+
+    public javax.swing.JTextField getTextFieldTotalCost() {
+        return textFieldTotalCost;
+    }
+
+    public final void editDisplay() {
+        CreateImage cre = new CreateImage();
+        cre.changeColorButton(buttonAdd);
+        cre.changeColorButton(buttonDelete);
+        cre.changeColorButton(buttonFix);
+        cre.changeColorButton(buttonCancel);
+        cre.changeColorButton(buttonConfirm);
+        cre.setIconForButton(buttonAdd, "add.png");
+        cre.setIconForButton(buttonDelete, "delete.png");
+        cre.setIconForButton(buttonFix, "fix.png");
+        cre.setIconForButton(buttonConfirm, "confirm.png");
+        cre.setIconForButton(buttonCancel, "cancle.png");
+    }
+
+    private void setCombobox() {
+        ListCustomer listCtm = new ListCustomer();
+        ListDiscount listDc = new ListDiscount();
+
+        DefaultComboBoxModel<String> modelCustomer = new DefaultComboBoxModel<>();
+        for (String item : listCtm.getListCustomerID()) {
+            modelCustomer.addElement(item);
+        }
+        ArrayList<String> listDiscountName = listDc.getListDiscountName();
+        for (String item : listDiscountName) {
+            comboBoxDiscount.addItem(item);
+        }
+
+        comboboxCustomerID.setModel(modelCustomer);
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        choiceProduct = new java.awt.Choice();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        textFieldQuantity = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        comboBoxDiscount = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        comboboxCustomerID = new javax.swing.JComboBox<>();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        textFieldProductID = new javax.swing.JTextField();
+        textFieldProductName = new javax.swing.JTextField();
+        textFieldProductPrice = new javax.swing.JTextField();
+        textFieldTempCost = new javax.swing.JTextField();
+        textFieldTotalCost = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        textFieldReducedPrice = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        buttonFix = new javax.swing.JButton();
+        buttonDelete = new javax.swing.JButton();
+        buttonConfirm = new javax.swing.JButton();
+        buttonCancel = new javax.swing.JButton();
+        buttonAdd = new javax.swing.JButton();
+        scrollPane2 = new java.awt.ScrollPane();
+        jScrollPane14 = new javax.swing.JScrollPane();
+        jTableOrder = new javax.swing.JTable();
+
+        jPanel7.setPreferredSize(new java.awt.Dimension(260, 420));
+
+        jLabel12.setText("Mã sản phẩm");
+
+        jLabel13.setForeground(new java.awt.Color(153, 255, 255));
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        choiceProduct.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                choiceProductMouseClicked(evt);
+            }
+        });
+
+        jLabel17.setText("Tên sản phẩm");
+
+        jLabel19.setText("Số lượng");
+
+        jLabel21.setText("Đơn giá");
+
+        textFieldQuantity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFieldQuantityActionPerformed(evt);
+            }
+        });
+        textFieldQuantity.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                textFieldQuantityKeyReleased(evt);
+            }
+
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                textFieldQuantityKeyTyped(evt);
+            }
+        });
+
+        jLabel10.setText("Khuyến mãi");
+
+        comboBoxDiscount.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboBoxDiscountItemStateChanged(evt);
+            }
+        });
+        comboBoxDiscount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxDiscountActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Mã khách hàng");
+
+        comboboxCustomerID.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboboxCustomerIDItemStateChanged(evt);
+            }
+        });
+        comboboxCustomerID.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                comboboxCustomerIDInputMethodTextChanged(evt);
+            }
+        });
+
+        jLabel11.setText("Tổng cộng");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel3.setText("=========================");
+
+        jLabel1.setText("Tạm tính");
+
+        textFieldProductID.setEnabled(false);
+        textFieldProductID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFieldProductIDActionPerformed(evt);
+            }
+        });
+
+        textFieldProductName.setEnabled(false);
+
+        textFieldProductPrice.setEnabled(false);
+
+        textFieldTempCost.setEnabled(false);
+        textFieldTempCost.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFieldTempCostActionPerformed(evt);
+            }
+        });
+
+        textFieldTotalCost.setEnabled(false);
+
+        jLabel4.setText("Triệu VND");
+
+        jLabel5.setText("Triệu VND");
+
+        jLabel6.setText("Triệu VND");
+
+        jLabel8.setText("Đã giảm");
+
+        textFieldReducedPrice.setEnabled(false);
+
+        jLabel9.setText("Triệu VND");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel7Layout.createSequentialGroup()
+                                                .addGroup(jPanel7Layout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(jPanel7Layout.createSequentialGroup()
+                                                                .addGap(14, 14, 14)
+                                                                .addGroup(jPanel7Layout.createParallelGroup(
+                                                                        javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(jLabel15,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                300,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addComponent(jLabel14,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                300,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                        .addGroup(jPanel7Layout.createSequentialGroup()
+                                                                .addContainerGap()
+                                                                .addComponent(jLabel12))
+                                                        .addComponent(jLabel3))
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                        .addGroup(jPanel7Layout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addGroup(jPanel7Layout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(jPanel7Layout.createSequentialGroup()
+                                                                .addGroup(jPanel7Layout.createParallelGroup(
+                                                                        javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addGroup(
+                                                                                javax.swing.GroupLayout.Alignment.TRAILING,
+                                                                                jPanel7Layout.createSequentialGroup()
+                                                                                        .addGap(0, 0, Short.MAX_VALUE)
+                                                                                        .addComponent(jLabel2))
+                                                                        .addGroup(jPanel7Layout.createSequentialGroup()
+                                                                                .addGroup(jPanel7Layout
+                                                                                        .createParallelGroup(
+                                                                                                javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                        .addComponent(jLabel17)
+                                                                                        .addComponent(jLabel1)
+                                                                                        .addComponent(jLabel19)
+                                                                                        .addComponent(jLabel21)
+                                                                                        .addComponent(jLabel11))
+                                                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                                                .addPreferredGap(
+                                                                        javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                .addGroup(jPanel7Layout.createParallelGroup(
+                                                                        javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addGroup(
+                                                                                javax.swing.GroupLayout.Alignment.TRAILING,
+                                                                                jPanel7Layout.createSequentialGroup()
+                                                                                        .addGap(0, 0, Short.MAX_VALUE)
+                                                                                        .addGroup(jPanel7Layout
+                                                                                                .createParallelGroup(
+                                                                                                        javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                .addComponent(jLabel13,
+                                                                                                        javax.swing.GroupLayout.Alignment.TRAILING,
+                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                        170,
+                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                .addGroup(
+                                                                                                        javax.swing.GroupLayout.Alignment.TRAILING,
+                                                                                                        jPanel7Layout
+                                                                                                                .createSequentialGroup()
+                                                                                                                .addGroup(
+                                                                                                                        jPanel7Layout
+                                                                                                                                .createParallelGroup(
+                                                                                                                                        javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                                                .addGroup(
+                                                                                                                                        javax.swing.GroupLayout.Alignment.TRAILING,
+                                                                                                                                        jPanel7Layout
+                                                                                                                                                .createSequentialGroup()
+                                                                                                                                                .addComponent(
+                                                                                                                                                        textFieldTempCost,
+                                                                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                                                                        139,
+                                                                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                                                .addPreferredGap(
+                                                                                                                                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                                                                .addComponent(
+                                                                                                                                                        jLabel4)
+                                                                                                                                                .addGap(18,
+                                                                                                                                                        18,
+                                                                                                                                                        18))
+                                                                                                                                .addGroup(
+                                                                                                                                        jPanel7Layout
+                                                                                                                                                .createSequentialGroup()
+                                                                                                                                                .addGroup(
+                                                                                                                                                        jPanel7Layout
+                                                                                                                                                                .createParallelGroup(
+                                                                                                                                                                        javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                                                                                .addComponent(
+                                                                                                                                                                        comboboxCustomerID,
+                                                                                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                                                                                        200,
+                                                                                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                                                                .addComponent(
+                                                                                                                                                                        comboBoxDiscount,
+                                                                                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                                                                                        199,
+                                                                                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                                                                .addGap(17,
+                                                                                                                                                        17,
+                                                                                                                                                        17)))
+                                                                                                                .addComponent(
+                                                                                                                        jLabel28)
+                                                                                                                .addGap(31,
+                                                                                                                        31,
+                                                                                                                        31))
+                                                                                                .addGroup(jPanel7Layout
+                                                                                                        .createSequentialGroup()
+                                                                                                        .addGroup(
+                                                                                                                jPanel7Layout
+                                                                                                                        .createParallelGroup(
+                                                                                                                                javax.swing.GroupLayout.Alignment.TRAILING,
+                                                                                                                                false)
+                                                                                                                        .addComponent(
+                                                                                                                                textFieldReducedPrice,
+                                                                                                                                javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                                        .addComponent(
+                                                                                                                                textFieldTotalCost,
+                                                                                                                                javax.swing.GroupLayout.Alignment.LEADING,
+                                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                                                136,
+                                                                                                                                Short.MAX_VALUE))
+                                                                                                        .addPreferredGap(
+                                                                                                                javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                        .addGroup(
+                                                                                                                jPanel7Layout
+                                                                                                                        .createParallelGroup(
+                                                                                                                                javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                                        .addComponent(
+                                                                                                                                jLabel5)
+                                                                                                                        .addComponent(
+                                                                                                                                jLabel9)))))
+                                                                        .addGroup(jPanel7Layout.createSequentialGroup()
+                                                                                .addGroup(jPanel7Layout
+                                                                                        .createParallelGroup(
+                                                                                                javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                        .addGroup(jPanel7Layout
+                                                                                                .createParallelGroup(
+                                                                                                        javax.swing.GroupLayout.Alignment.LEADING,
+                                                                                                        false)
+                                                                                                .addComponent(
+                                                                                                        textFieldQuantity)
+                                                                                                .addGroup(jPanel7Layout
+                                                                                                        .createSequentialGroup()
+                                                                                                        .addComponent(
+                                                                                                                choiceProduct,
+                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                        .addPreferredGap(
+                                                                                                                javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                        .addComponent(
+                                                                                                                textFieldProductID,
+                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                                162,
+                                                                                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                .addComponent(
+                                                                                                        textFieldProductName))
+                                                                                        .addGroup(jPanel7Layout
+                                                                                                .createSequentialGroup()
+                                                                                                .addComponent(
+                                                                                                        textFieldProductPrice,
+                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                                        136,
+                                                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                .addPreferredGap(
+                                                                                                        javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                                                .addComponent(jLabel6)))
+                                                                                .addGap(0, 0, Short.MAX_VALUE))))
+                                                        .addGroup(jPanel7Layout.createSequentialGroup()
+                                                                .addGroup(jPanel7Layout.createParallelGroup(
+                                                                        javax.swing.GroupLayout.Alignment.LEADING)
+                                                                        .addComponent(jLabel10)
+                                                                        .addComponent(jLabel8))
+                                                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addContainerGap()));
+        jPanel7Layout.setVerticalGroup(
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel14)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 160,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel7Layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addGroup(jPanel7Layout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(comboboxCustomerID,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(jLabel2)))
+                                        .addGroup(jPanel7Layout.createSequentialGroup()
+                                                .addGap(32, 32, 32)
+                                                .addComponent(jLabel13)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel12)
+                                        .addComponent(choiceProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 20,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(textFieldProductID, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(17, 17, 17)
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel17)
+                                        .addComponent(textFieldProductName, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(9, 9, 9)
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel19)
+                                        .addComponent(textFieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 22,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(textFieldProductPrice, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel6)
+                                        .addComponent(jLabel21))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 22,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel7Layout
+                                                .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jLabel1)
+                                                .addComponent(textFieldTempCost, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jLabel4)))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 25,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(comboBoxDiscount, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel8)
+                                        .addComponent(textFieldReducedPrice, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel9))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20,
+                                        Short.MAX_VALUE)
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 25,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(textFieldTotalCost, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel5))
+                                .addContainerGap()));
+
+        jLabel7.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("Thông tin đơn hàng");
+
+        buttonFix.setText("Sửa hóa đơn");
+        buttonFix.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        buttonFix.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buttonFixMouseClicked(evt);
+            }
+        });
+        buttonFix.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonFixActionPerformed(evt);
+            }
+        });
+
+        buttonDelete.setText("Xóa sản phẩm");
+        buttonDelete.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        buttonDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buttonDeleteMouseClicked(evt);
+            }
+        });
+        buttonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDeleteActionPerformed(evt);
+            }
+        });
+
+        buttonConfirm.setText("Xác nhận hóa đơn");
+        buttonConfirm.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        buttonConfirm.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buttonConfirmMouseClicked(evt);
+            }
+        });
+        buttonConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonConfirmActionPerformed(evt);
+            }
+        });
+
+        buttonCancel.setText("Hủy hóa đơn");
+        buttonCancel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        buttonCancel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buttonCancelMouseClicked(evt);
+            }
+        });
+        buttonCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCancelActionPerformed(evt);
+            }
+        });
+
+        buttonAdd.setText("Thêm sản phẩm");
+        buttonAdd.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        buttonAdd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buttonAddMouseClicked(evt);
+            }
+        });
+        buttonAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAddActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+                jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addComponent(buttonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(buttonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(buttonFix, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(buttonConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(buttonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(38, Short.MAX_VALUE)));
+        jPanel5Layout.setVerticalGroup(
+                jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(buttonFix, javax.swing.GroupLayout.PREFERRED_SIZE, 54,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(buttonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 54,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(buttonConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 54,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(buttonCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 54,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(buttonAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 54,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE))));
+
+        jTableOrder.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][] {
+
+                },
+                new String[] {
+                        "Mã sản phẩm", "Tên sản phẩm", "Loại", "Chỗ ngồi", "Số lượng", "Đơn giá(Triệu VND)",
+                        "Thành tiền(Triệu VND)"
+                }) {
+            Class[] types = new Class[] {
+                    java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class,
+                    java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean[] {
+                    false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+        });
+        jTableOrder.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableOrderMouseClicked(evt);
+            }
+        });
+        jTableOrder.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTableOrderKeyPressed(evt);
+            }
+        });
+        jScrollPane14.setViewportView(jTableOrder);
+
+        scrollPane2.add(jScrollPane14);
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+                jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 330,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(2, 2, 2)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(scrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap()));
+        jPanel6Layout.setVerticalGroup(
+                jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel6Layout.createSequentialGroup()
+                                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(scrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                        .addGroup(jPanel6Layout.createSequentialGroup()
+                                                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, 553,
+                                                        Short.MAX_VALUE)
+                                                .addGap(18, 18, 18)))
+                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap()));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+        jPanel1Layout.setVerticalGroup(
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+        layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jTableOrderKeyPressed(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_jTableOrderKeyPressed
+        selectedRowIndex = jTableOrder.getSelectedRow();
+        int rowCount = jTableOrder.getRowCount();
+        DefaultTableModel invoiceTable = (DefaultTableModel) jTableOrder.getModel();
+
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_UP -> {
+                if (selectedRowIndex > 0) {
+                    jTableOrder.changeSelection(selectedRowIndex--, 0, false, false);
+                } else {
+                }
+            }
+            case KeyEvent.VK_DOWN -> {
+                if (selectedRowIndex == rowCount - 1) {
+                } else {
+                    jTableOrder.changeSelection(selectedRowIndex++, 0, false, false);
+                }
+            }
+        }
+        setInfo(invoiceTable);
+    }// GEN-LAST:event_jTableOrderKeyPressed
+
+    private void textFieldTempCostActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_textFieldTempCostActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_textFieldTempCostActionPerformed
+
+    private void textFieldProductIDActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_textFieldProductIDActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_textFieldProductIDActionPerformed
+
+    private void choiceProductMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_choiceProductMouseClicked
+        ArrayList<OrderDTO> newOrders = SaveTable(this.employeeID);
+        JPanelListProducts products = new JPanelListProducts(customerID, this.employeeID, newOrders);
+        MainFrameGUI main = (MainFrameGUI) SwingUtilities.getWindowAncestor(this);
+        main.getjPanelMain().removeAll();
+        main.getjPanelMain().add(products).setVisible(true);
+        main.pack();
+    }// GEN-LAST:event_choiceProductMouseClicked
+
+    private void textFieldQuantityActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_textFieldQuantityActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_textFieldQuantityActionPerformed
+
+    private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {
+        if (idProduct == null || idProduct.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Xin hãy chọn sản phẩm cần thêm.", "Thông báo",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (quantityProduct == 0 || textFieldQuantity.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Xin hãy nhập số lượng của sản phẩm cần thêm.", "Thông báo",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        DefaultTableModel invoiceTable = (DefaultTableModel) jTableOrder.getModel();
+        int rowCount = invoiceTable.getRowCount();
+        boolean productExists = false;
+
+        for (int i = 0; i < rowCount; i++) {
+            if (invoiceTable.getValueAt(i, 0).equals(idProduct)) {
+                productExists = true;
+                int baseQuantity = 0;
+
+                if (textFieldProductID.getText() != null && !"".equals(textFieldProductID.getText())) {
+                    ListProduct listPd = new ListProduct();
+                    ProductDTO pdDTO = listPd.searchProductByProductID(textFieldProductID.getText());
+                    baseQuantity = pdDTO.getQuantity();
+                }
+
+                int quantityInTable = (int) invoiceTable.getValueAt(i, 4);
+                int totalQuantity = quantityInTable + quantityProduct;
+
+                // Kiểm tra nếu số lượng vượt quá tồn kho
+                if (totalQuantity > baseQuantity) {
+                    JOptionPane.showMessageDialog(this,
+                            "Số lượng tồn kho của sản phẩm này hiện tại không đủ nên sẽ được đặt mặc định là số lượng tối đa",
+                            "Thông báo", JOptionPane.WARNING_MESSAGE);
+                    invoiceTable.setValueAt(baseQuantity, i, 4);
+                } else {
+                    invoiceTable.setValueAt(totalQuantity, i, 4);
+                }
+
+                double price = (double) invoiceTable.getValueAt(i, 5);
+                invoiceTable.setValueAt(price * totalQuantity, i, 6);
+
+                break;
+            }
+        }
+
+        // Nếu sản phẩm chưa tồn tại, thêm sản phẩm vào bảng
+        if (!productExists) {
+            SetValueTable();
+        }
+
+        clear();
+    }// GEN-LAST:event_buttonAddActionPerformed
+
+    private void textFieldQuantityKeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_textFieldQuantityKeyTyped
+
+    }// GEN-LAST:event_textFieldQuantityKeyTyped
+
+    private void buttonAddMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonAddMouseClicked
+
+    }// GEN-LAST:event_buttonAddMouseClicked
+
+    private void buttonDeleteMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonDeleteMouseClicked
+
+    }// GEN-LAST:event_buttonDeleteMouseClicked
+
+    private void comboBoxDiscountActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_comboBoxDiscountActionPerformed
+        String nameDiscount = (String) comboBoxDiscount.getSelectedItem();
+        if (!nameDiscount.equals("Nhấp để chọn")) {
+            ListDiscount listDc = new ListDiscount();
+            DiscountDTO dcDTO = listDc.searchByName(nameDiscount);
+            idDiscount = dcDTO.getDiscountID();
+            discountPercent = dcDTO.getPercentDiscount();
+        } else {
+            idDiscount=null;
+            discountPercent = 0.0;
+        }
+        textFieldTempCost.setText(getTempCost() + "");
+        textFieldReducedPrice.setText((getTempCost() - getTotalCost()) + "");
+        textFieldTotalCost.setText(getTotalCost() + "");
+    }// GEN-LAST:event_comboBoxDiscountActionPerformed
+
+    private void comboBoxDiscountItemStateChanged(java.awt.event.ItemEvent evt) {// GEN-FIRST:event_comboBoxDiscountItemStateChanged
+
+    }// GEN-LAST:event_comboBoxDiscountItemStateChanged
+
+    public Double getTempCost() {
+        Double cost = 0.0;
+        DefaultTableModel invoiceTable = (DefaultTableModel) jTableOrder.getModel();
+        for (int i = 0; i < invoiceTable.getRowCount(); i++) {
+            cost += (Double) invoiceTable.getValueAt(i, 6);
+        }
+        return cost;
+    }
+
+    public Double getTotalCost() {
+        if (discountPercent != 0.1) {
+            double totalCost = getTempCost() - (getTempCost() * discountPercent);
+            return totalCost;
+        }
+        return getTempCost();
+    }
+
+    private void buttonConfirmMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonConfirmMouseClicked
+
+    }// GEN-LAST:event_buttonConfirmMouseClicked
+
+    private void buttonCancelMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonCancelMouseClicked
+
+    }// GEN-LAST:event_buttonCancelMouseClicked
+
+    private void buttonConfirmActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonConfirmActionPerformed
+        DefaultTableModel invoiceTable = (DefaultTableModel) jTableOrder.getModel();
+        int rowCount = invoiceTable.getRowCount();
+        if (rowCount == 0) {
+            JOptionPane.showMessageDialog(this, "Giỏ hàng hiện đang trống.", "Thông báo",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (customerID == null || customerID.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Mã khách hàng không được để trống.", "Thông báo",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int option = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xác nhận đơn hàng không?", "Cảnh báo",
+                JOptionPane.YES_NO_OPTION);
+        if (option == JOptionPane.YES_OPTION) {
+            Double totalCost = getTotalCost();
+            Double tempCost = getTempCost();
+            Double reducedCost = tempCost - totalCost;
+
+            ListProduct listPd = new ListProduct();
+            ArrayList<InvoiceDTO> invoices = listIv.getList();
+            ArrayList<DetailInvoiceDTO> detailInvoices = listDiv.getList();
+
+            String newId = listIv.createInvoiceID();
+            listIv.add(newId, customerID, this.employeeID, idDiscount, Tool.getCurrentDate(), tempCost, reducedCost,
+                    totalCost);
+
+            for (int i = 0; i < rowCount; i++) {
+                if (idDiscount == null) {
+                    idDiscount = "";
+                }
+
+                int quantity = (Integer) invoiceTable.getValueAt(i, 4);
+                if (quantity == 0) {
+                    continue;
+                }
+
+                String productID = (String) invoiceTable.getValueAt(i, 0);
+                Double price = (Double) invoiceTable.getValueAt(i, 5);
+                Double cost = (Double) invoiceTable.getValueAt(i, 6);
+
+                detailInvoices.add(new DetailInvoiceDTO(newId, productID, price, quantity, cost));
+                listPd.decreaseQuantity(productID, quantity);
+            }
+
+            listDiv.setAllDetailInvoices(detailInvoices);
+            listIv.setAllInvoices(invoices);
+            listPd.setAllProducts(listPd.getList());
+
+            invoiceTable.setRowCount(0);
+            clear();
+            comboboxCustomerID.setSelectedItem("Nhấp để chọn");
+        }
+    }// GEN-LAST:event_buttonConfirmActionPerformed
+
+    private void setInfo(DefaultTableModel invoiceTable) {
+        idProduct = invoiceTable.getValueAt(selectedRowIndex, 0).toString();
+        nameProduct = invoiceTable.getValueAt(selectedRowIndex, 1).toString();
+        typeProduct = invoiceTable.getValueAt(selectedRowIndex, 2).toString();
+        seatProduct = Integer.parseInt(invoiceTable.getValueAt(selectedRowIndex, 3).toString());
+        quantityProduct = Integer.parseInt(invoiceTable.getValueAt(selectedRowIndex, 4).toString());
+        priceProduct = Double.parseDouble(invoiceTable.getValueAt(selectedRowIndex, 5).toString());
+
+        GetValueProductSelected();
+    }
+
+    private void jTableOrderMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jTableOrderMouseClicked
+        selectedRowIndex = jTableOrder.getSelectedRow();
+        DefaultTableModel invoiceTable = (DefaultTableModel) jTableOrder.getModel();
+        setInfo(invoiceTable);
+    }// GEN-LAST:event_jTableOrderMouseClicked
+
+    private void buttonFixMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonFixMouseClicked
+
+    }// GEN-LAST:event_buttonFixMouseClicked
+
+    private void comboboxCustomerIDInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {// GEN-FIRST:event_comboboxCustomerIDInputMethodTextChanged
+
+    }// GEN-LAST:event_comboboxCustomerIDInputMethodTextChanged
+
+    private void comboboxCustomerIDItemStateChanged(java.awt.event.ItemEvent evt) {// GEN-FIRST:event_comboboxCustomerIDItemStateChanged
+        String temp = (String) comboboxCustomerID.getSelectedItem();
+        if (!temp.equals("Nhấp để chọn")) {
+            customerID = temp;
+        } else {
+            customerID = null;
+        }
+    }// GEN-LAST:event_comboboxCustomerIDItemStateChanged
+
+    private void textFieldQuantityKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_textFieldQuantityKeyReleased
+        String quantityStr = textFieldQuantity.getText();
+        try {
+            if (quantityStr.isEmpty()) {
+                return;
+            }
+
+            String productID = textFieldProductID.getText();
+            if (productID.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "Vui lòng chọn sản phẩm trước khi nhập số lượng", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
+                choiceProduct.requestFocus();
+                textFieldQuantity.setText("");
+                return;
+            }
+
+            int quantity = 0;
+            if (textFieldProductID.getText() != null || !"".equals(productID)) {
+                ListProduct listPd = new ListProduct();
+                ProductDTO pdDTO = listPd.searchProductByProductID(productID);
+                quantity = pdDTO.getQuantity();
+            }
+
+            int inputQuantity = Integer.parseInt(quantityStr);
+            if (inputQuantity > quantity) {
+                JOptionPane.showMessageDialog(this,
+                        "Số lượng tồn kho của sản phẩm này hiện tại không đủ nên sẽ được đặt mặc định là số lượng tối đa",
+                        "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
+                quantityProduct = quantity;
+                textFieldQuantity.setText(quantityProduct + "");
+
+                return;
+            } else {
+                quantityProduct = inputQuantity;
+                textFieldQuantity.setText(quantityProduct + "");
+            }
+
+            if (inputQuantity <= 0) {
+                JOptionPane.showMessageDialog(this,
+                        "Số lượng mua không hợp lệ nên sẽ đươc đặt mặc định là 1", "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
+                quantityProduct = 1;
+                textFieldQuantity.setText(quantityProduct + "");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Số lượng nhập vào không hợp lệ nên sẽ được đặt mặc định là 1",
+                    "Thông báo", JOptionPane.WARNING_MESSAGE);
+            quantityProduct = 1;
+            textFieldQuantity.setText(quantityProduct + "");
+        }
+    }// GEN-LAST:event_textFieldQuantityKeyReleased
+
+    private void buttonFixActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonFixActionPerformed
+        int index = jTableOrder.getSelectedRow();
+        String quantityStr = textFieldQuantity.getText().trim();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Xin hãy chọn đơn hàng cần sửa.", "Thông báo",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (quantityProduct == 0 || quantityStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Xin hãy nhập số lượng của sản phẩm cần sửa.", "Thông báo",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        DefaultTableModel invoiceTable = (DefaultTableModel) jTableOrder.getModel();
+
+        invoiceTable.setValueAt(quantityProduct, index, 4);
+        double cost = quantityProduct * priceProduct;
+        invoiceTable.setValueAt(cost, index, 6);
+
+        textFieldTempCost.setText(getTempCost() + "");
+        textFieldTotalCost.setText(getTotalCost() + "");
+
+        clear();
+    }// GEN-LAST:event_buttonFixActionPerformed
+
+    private void buttonDeleteActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonDeleteActionPerformed
+        DefaultTableModel invoiceTable = (DefaultTableModel) jTableOrder.getModel();
+        if (invoiceTable.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Giỏ hàng hiện đang trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int index = jTableOrder.getSelectedRow();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(this, "Xin hãy chọn sản phẩm cần xóa.", "Thông báo",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int option = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa sản phẩm ra khỏi hóa đơn không?",
+                "Cảnh báo", JOptionPane.YES_NO_OPTION);
+        if (option == JOptionPane.YES_OPTION) {
+
+            invoiceTable.removeRow(index);
+            textFieldTotalCost.setText("" + getTotalCost());
+            clear();
+        }
+    }// GEN-LAST:event_buttonDeleteActionPerformed
+
+    private void buttonCancelActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonCancelActionPerformed
+        DefaultTableModel invoiceTable = (DefaultTableModel) jTableOrder.getModel();
+        int rowCount = invoiceTable.getRowCount();
+        if (rowCount == 0) {
+            JOptionPane.showMessageDialog(this, "Giỏ hàng hiện đang trống.", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int option = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn hủy toàn bộ đơn hàng không?", "Cảnh báo",
+                JOptionPane.YES_NO_OPTION);
+        if (option == JOptionPane.YES_OPTION) {
+            JPanelOrder order = new JPanelOrder(this.employeeID);
+            MainFrameGUI main = (MainFrameGUI) SwingUtilities.getWindowAncestor(this);
+            main.getjPanelMain().removeAll();
+            main.getjPanelMain().add(order).setVisible(true);
+            main.pack();
+        }
+    }// GEN-LAST:event_buttonCancelActionPerformed
+
+    private void SetValueProduct() {
+        if (idProduct == null) {
+            return;
+        }
+
+        ListProduct listPd = new ListProduct();
+        ListDetailProduct listDpd = new ListDetailProduct();
+        ProductDTO pdDTO = listPd.searchProductByProductID(idProduct);
+        DetailProductDTO dpdDTO = listDpd.searchDetailProductByProductID(idProduct);
+
+        textFieldProductID.setText(idProduct);
+        nameProduct = pdDTO.getProductName();
+        textFieldProductName.setText(nameProduct);
+        typeProduct = pdDTO.getType();
+        priceProduct = pdDTO.getPrice();
+        textFieldProductPrice.setText(Double.toString(priceProduct));
+        seatProduct = dpdDTO.getSeat();
+    }
+
+    private void SetValueTable() {
+        DefaultTableModel invoiceTable = (DefaultTableModel) jTableOrder.getModel();
+        Vector rowData = new Vector();
+        rowData.add(idProduct);
+        rowData.add(nameProduct);
+        rowData.add(typeProduct);
+        rowData.add(seatProduct);
+        rowData.add(quantityProduct);
+        rowData.add(priceProduct);
+        rowData.add(priceProduct * quantityProduct);
+        invoiceTable.addRow(rowData);
+        textFieldTempCost.setText(getTempCost() + "");
+        textFieldTotalCost.setText(getTotalCost() + "");
+    }
+
+    private ArrayList<OrderDTO> SaveTable(String employeeID) {
+        this.employeeID = employeeID;
+        ArrayList<OrderDTO> orders = new ArrayList<>();
+        DefaultTableModel invoiceTable = (DefaultTableModel) jTableOrder.getModel();
+        int rowCount = invoiceTable.getRowCount();
+
+        if (rowCount == 0) {
+            return null;
+        }
+
+        for (int i = 0; i < rowCount; i++) {
+            String idProductTemp = (String) invoiceTable.getValueAt(i, 0);
+            String nameProductTemp = (String) invoiceTable.getValueAt(i, 1);
+            String typeTemp = (String) invoiceTable.getValueAt(i, 2);
+            int seatTemp = (Integer) invoiceTable.getValueAt(i, 3);
+            int quantityTemp = (Integer) invoiceTable.getValueAt(i, 4);
+            Double priceTemp = (Double) invoiceTable.getValueAt(i, 5);
+            Double costTemp = (Double) invoiceTable.getValueAt(i, 6);
+            orders.add(new OrderDTO(idProductTemp, nameProductTemp, typeTemp, seatTemp, quantityTemp, priceTemp,
+                    costTemp));
+        }
+
+        return orders;
+    }
+
+    private void LoadInvoicetable() {
+        if (orders == null) {
+            return;
+        }
+
+        DefaultTableModel invoiceTable = (DefaultTableModel) jTableOrder.getModel();
+        for (OrderDTO order : orders) {
+            Vector rowData = new Vector();
+            rowData.add(order.getIdProduct());
+            rowData.add(order.getNameProduct());
+            rowData.add(order.getType());
+            rowData.add(order.getSeat());
+            rowData.add(order.getQuantity());
+            rowData.add(order.getPrice());
+            rowData.add(order.getCost());
+            invoiceTable.addRow(rowData);
+        }
+    }
+
+    private void clear() {
+        textFieldProductPrice.setText("0");
+        textFieldProductID.setText("");
+        textFieldTempCost.setText("");
+        textFieldTotalCost.setText("");
+        comboBoxDiscount.setSelectedItem("Nhấp để chọn");
+        textFieldProductID.setText("");
+        textFieldQuantity.setText("");
+        textFieldProductName.setText("");
+        idProduct = "";
+        nameProduct = "";
+        quantityProduct = 0;
+        typeProduct = "";
+        seatProduct = 0;
+        priceProduct = 0;
+        jLabel15.setIcon(null);
+    }
+
+    private void GetValueProductSelected() {
+        textFieldProductID.setText(idProduct);
+        textFieldProductName.setText(nameProduct);
+        textFieldQuantity.setText(Integer.toString(quantityProduct));
+        textFieldProductPrice.setText(Double.toString(priceProduct) + "");
+        getImageProduct();
+    }
+
+    private void getImageProduct() {
+        if (nameProduct == null) {
+            nameProduct = "";
+        }
+        if (nameProduct.equals("")) {
+            return;
+        }
+        CreateImage ci = new CreateImage();
+        String imgName = nameProduct + ".png";
+        jLabel15.setSize(250, 100);
+        ci.setImageForLabel(jLabel15, imgName);
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonAdd;
+    private javax.swing.JButton buttonCancel;
+    private javax.swing.JButton buttonConfirm;
+    private javax.swing.JButton buttonDelete;
+    private javax.swing.JButton buttonFix;
+    private java.awt.Choice choiceProduct;
+    private javax.swing.JComboBox<String> comboBoxDiscount;
+    private javax.swing.JComboBox<String> comboboxCustomerID;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane14;
+    private javax.swing.JTable jTableOrder;
+    private java.awt.ScrollPane scrollPane2;
+    private javax.swing.JTextField textFieldProductID;
+    private javax.swing.JTextField textFieldProductName;
+    private javax.swing.JTextField textFieldProductPrice;
+    private javax.swing.JTextField textFieldQuantity;
+    private javax.swing.JTextField textFieldReducedPrice;
+    private javax.swing.JTextField textFieldTempCost;
+    private javax.swing.JTextField textFieldTotalCost;
+    // End of variables declaration//GEN-END:variables
+}
